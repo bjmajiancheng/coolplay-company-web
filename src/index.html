@@ -53,8 +53,8 @@
     </div>
 </div>
 <div data-options="region:'west',title:'MAIN NAVIGATION',border:false" class="super-west">
-    <!--左侧导航-->
-    <div class="easyui-accordion" data-options="border:false,fit:true,selected:true">
+    <!--左侧导航 style="display:none;"-->
+    <div class="easyui-accordion" data-options="border:false,fit:true,selected:true" id="vertical-menu" >
         <div title="布局" data-options="iconCls:'fa fa-desktop'" >
             <ul>
                 <li data-url='dvd/example/panel.html'>面板</li>
@@ -146,7 +146,10 @@
 <script src="cdn/vendors/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="cdn/vendors/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
 
+<script src="cdn/vendors/bootstrap/js/bootstrap.js"></script>
+<script src="cdn/vendors/bootbox.js"></script>
 <script src="cdn/vendors/jquery.tmpl.min.js"></script>
+<script src="cdn/vendors/jquery.cookie/jquery.cookie.js"></script>
 
 <script src="cdn/super/super.js"></script>
 <script src="cdn/super/superDemo.js" type="text/javascript" charset="utf-8"></script>
@@ -154,6 +157,7 @@
 
 <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/nav.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

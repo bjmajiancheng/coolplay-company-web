@@ -64,7 +64,7 @@
             success: function (result) {
                 if (result.code === 200) {
                     $.cookie('coolplay_company_token', result.token, {expires: 7});
-                    window.location.href = App.href;
+                    window.location.href = App.href + "/index.html";
                 } else {
                     alertValidate(result.message);
                     $("#captcha_a").trigger("click");

@@ -5,26 +5,12 @@
 (function ($, window, document, undefined) {
     App.menu = {
         "initVerticalMenu": initVerticalMenu,
-        "initSideMenu": initSideMenu,
-        "toggleMenu": toggleMenu,
         "showUserInfo": showUserInfo,
-        "showTaskInfo": showTaskInfo
+        "showTaskInfo": showTaskInfo,
+        "showPageInfo": showPageInfo
     };
     App.menusMapping = {};
 
-    function toggleMenu() {
-        var toggle = $.cookie('bi-menu-toggle');
-        if (toggle == undefined) {
-            toggle = "v";
-        }
-        console.info(toggle);
-        if (toggle == "v") {
-            $.cookie('bi-menu-toggle', "s", {expires: 7, path: '/'});
-        } else {
-            $.cookie('bi-menu-toggle', "v", {expires: 7, path: '/'});
-        }
-
-    }
 
     App.menu.userOption = {
         id: "current_user_form",//表单id
@@ -55,32 +41,6 @@
                     required: "请输入昵称"
                 }
             }, {
-                type: 'password',//类型
-                name: 'password',//name
-                id: 'password',//id
-                label: '旧密码',//左边label
-                cls: 'input-medium',
-                rule: {
-                    required: true
-                },
-                message: {
-                    required: "请输入旧密码"
-                }
-            }, {
-                type: 'password',//类型
-                name: 'newPassword',//name
-                id: 'newPassword',//id
-                label: '新密码',//左边label
-                cls: 'input-medium',
-                rule: {
-                    minlength: 6,
-                    maxlength: 64
-                },
-                message: {
-                    minlength: "至少{0}位",
-                    maxlength: "做多{0}位"
-                }
-            }, {
                 type: 'text',//类型
                 name: 'contactPhone',//name
                 id: 'contactPhone',//id
@@ -95,6 +55,110 @@
                 },
                 message: {
                     email: "请输入正确的邮箱"
+                }
+            }
+        ]
+    };
+
+
+    App.menu.taskGridOption = {
+        url: App.href + "/api/core/exportTask/myList",
+        pageNum: 1,//当前页码
+        pageSize: 15,//每页显示条数
+        idField: "id",//id域指定
+        headField: "taskName",
+        contentTypeItems: "table,card,list",
+        showCheck: true,//是否显示checkbox
+        checkboxWidth: "3%",
+        showIndexNum: true,
+        indexNumWidth: "5%",
+        pageSelect: [2, 15, 30, 50],
+        sort: "exportTime_desc",
+        columns: [
+            {
+                title: "任务名称",
+                align: "left",
+                field: "taskName"
+            }, {
+                title: "导出时间",
+                align: "left",
+                field: "exportTime"
+            }, {
+                title: "完成时间",
+                align: "left",
+                field: "completeTime"
+            }, {
+                title: "耗时",
+                align: "left",
+                field: "costTime"
+            }, {
+                title: "状态",
+                align: "left",
+                field: "status",
+                width: "10%",
+                format: function (i, data) {
+                    if (data.status == 2) {
+                        return '<span class="label label-success">完成</span>'
+                    } else if (data.status == 1) {
+                        return '<span class="label label-warning">进行中</span>'
+                    } else {
+                        return '<span class="label label-danger">失败</span>'
+                    }
+                }
+            },
+            {
+                title: "下载",
+                field: "status",
+                align: "left",
+                format: function (index, data) {
+                    if (data.status == 2) {
+                        return '<a class="btn btn-danger btn-sm" href="' + data.attachmentUri + '">右键另存为</a>';
+                    } else {
+                        return '';
+                    }
+                }
+            }
+        ],
+        actionColumnText: "操作",//操作列文本
+        actionColumnWidth: "20%",
+        actionColumns: [
+            {
+                text: "删除",
+                cls: "btn-danger btn-sm",
+                handle: function (index, data, grid) {
+                    bootbox.confirm("确定该操作?", function (result) {
+                        if (result) {
+                            var requestUrl = App.href + "/api/core/exportTask/delete";
+                            $.ajax({
+                                type: "GET",
+                                dataType: "json",
+                                data: {
+                                    id: data.id
+                                },
+                                url: requestUrl,
+                                success: function (data) {
+                                    if (data.code === 200) {
+                                        grid.reload();
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                },
+                                error: function (e) {
+                                    alert("请求异常。");
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        ],
+        tools: [
+            {
+                type: 'button',
+                text: '刷新',
+                cls: "btn btn-warning",
+                handle: function (g) {
+                    g.reload();
                 }
             }
         ]
@@ -135,57 +199,22 @@
         return topMenus;
     }
 
-    function secondMenu(ele, menus, subMenus) {
+    /*<li data-url='dvd/example/panel.html'>面板</li>*/
+    function secondVerticalMenu(menus, subMenus) {
+        var eles = [];
         if (subMenus.length > 0) {
-            ele += "<ul class='nav nav-second-level collapse'>";
             $.each(subMenus, function (i, m) {
-                ele += ('<li data-level="sub">'
+                eles.append("<li data-url='"+ m.action +"'>" + m.functionName + "</li>");
+                /*ele += ('<li data-level="sub">'
                     + '<a data-url="' + m.action
                     + '" data-title="' + m.functionName
-                    + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
+                    + '" href="/index.html?u=' + m.action + '"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
                     + m.functionName
                     + '</a>');
-                var sMenus = getSubMenu(menus, m.id);
-                ele = thirdMenu(ele, sMenus);
-                ele += '</li>';
+                ele += '</li>';*/
             });
-            ele += "</ul>";
         }
-        return ele;
-    }
-
-    function secondVerticalMenu(ele, menus, subMenus) {
-        if (subMenus.length > 0) {
-            ele += "<ul style='z-index: 10000;' class='dropdown-menu animated flipInX'>";
-            $.each(subMenus, function (i, m) {
-                ele += ('<li data-level="sub">'
-                    + '<a data-url="' + m.action
-                    + '" data-title="' + m.functionName
-                    + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
-                    + m.functionName
-                    + '</a>');
-                ele += '</li>';
-            });
-            ele += "</ul>";
-        }
-        return ele;
-    }
-
-    function thirdMenu(ele, subMenus) {
-        if (subMenus.length > 0) {
-            ele += "<ul class='nav nav-third-level collapse'>";
-            $.each(subMenus, function (i, m) {
-                ele += ('<li data-level="sub">'
-                    + '<a data-url="' + m.action
-                    + '" data-title="' + m.functionName
-                    + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
-                    + m.functionName
-                    + '</a>');
-                ele += '</li>';
-            });
-            ele += "</ul>";
-        }
-        return ele;
+        return eles.join('');
     }
 
     function showUserInfo() {
@@ -211,10 +240,35 @@
         form.loadRemote(App.href + "/api/index/loadCurrentUser");
     }
 
-    function initSideMenu() {
-        var ul = "#side-menu";
-        $("ul[role=vertical]").remove();
-        $(".page-wrapper").removeClass("side-page");
+    function showTaskInfo() {
+        var modal = $.orangeModal({
+            id: "exportList",
+            title: "导出任务列表",
+            destroy: true,
+            buttons: [
+                {
+                    type: 'button',
+                    cls: 'btn-default',
+                    text: '关闭',
+                    handle: function (m) {
+                        m.hide();
+                    }
+                }
+            ]
+        }).show().$body.orangeGrid(App.menu.taskGridOption);
+    }
+
+
+        /*<div title="布局" data-options="iconCls:'fa fa-desktop'" >
+            <ul>
+            <li data-url='dvd/example/panel.html'>面板</li>
+            <li data-url='dvd/example/tabs.html'>选项卡</li>
+            <li data-url='dvd/example/accordion.html'>分类</li>
+            <li data-url='dvd/example/layout.html'>布局</li>
+            </ul>
+        </div>*/
+    function initVerticalMenu() {
+        var ul = "#vertical-menu";
         $.ajax(
             {
                 type: 'GET',
@@ -227,74 +281,27 @@
                         var userInfo = result.data.user;
                         App.currentUser = userInfo;
                         $("ul.nav").find("#gUserName").html(userInfo.displayName);
+                        var topMenus = getTopMenu(menus);
                         $.each(menus, function (i, m) {
                             App.menusMapping[m.action] = m.functionName;
                         });
-                        var topMenus = getTopMenu(menus);
                         $.each(topMenus, function (i, m) {
                             if (m.parentId == 0) {
-                                var ele =
-                                    '<li data-level="top">'
-                                    + '<a data-url="' + m.action
-                                    + '" data-title="' + m.functionName
-                                    + '" href="javascript:void(0);"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
-                                    + m.functionName
-                                    + '</a>';
                                 var subMenus = getSubMenu(menus, m.id);
-                                if (subMenus.length > 0) {
-                                    ele = secondMenu(ele, menus, subMenus);
+                                var htmls = [];
+                                htmls.append("<div title=\"" + m.functionName + "\" data-options=\"iconCls:'fa "+ m.icon +"'\" >");
+                                htmls.append("<ul>");
+                                if(subMenus.length > 0) {
+                                    var subEles = secondVerticalMenu(menus, subMenus);
+                                    htmls.append(subEles);
                                 }
-                                ele += '</li>';
-                                var li = $(ele);
-                                li.find("li[data-level=sub]").parents("li[data-level=top]").addClass("submenu").find("a:eq(0)").append('<span class="caret pull-right"></span>');
-                                $(ul).append(li);
-                            }
-                        });
-                        $(ul).metisMenu();
-                        $(ul).find("li[class!=submenu] > a")
-                            .each(function () {
-                                    var url = $(this).attr("data-url");
-                                    var f = App.requestMapping[url];
-                                    $(this).on("click", function () {
-                                        window.location.href = App.href + '/index.html?u=' + url;
-                                    });
-                                }
-                            );
-                        refreshHref(ul);
-                    } else if (result.code === 401) {
-                        bootbox.alert("token失效,请登录!");
-                        window.location.href = '../login.html';
-                    }
-                },
-                error: function (err) {
-                }
-            }
-        );
-    }
+                                htmls.append("</ul>");
+                                htmls.append("</div>");
 
-    function initVerticalMenu() {
-        var ul = "#vertical-menu";
-        $("ul[role=side]").remove();
-        $.ajax(
-            {
-                type: 'GET',
-                url: App.href + "/api/index/current",
-                contentType: "application/json",
-                dataType: "json",
-                success: function (result) {
-                    if (result.code === 200) {
-                        var menus = result.data.functionList;
-                        var userInfo = result.data.user;
-                        App.currentUser = userInfo;
-                        $("ul.nav").find("#gUserName").html(userInfo.username);
-                        var topMenus = getTopMenu(menus);
-                        $.each(menus, function (i, m) {
-                            App.menusMapping[m.action] = m.functionName;
-                        });
-                        $.each(topMenus, function (i, m) {
-                            if (m.parentId == 0) {
-                                var subMenus = getSubMenu(menus, m.id);
-                                var dropDown = "";
+                                var div = $(htmls.join(''));
+                                $(ul).append(div);
+
+                                /*var dropDown = "";
                                 var toggle = "";
                                 var cart = "";
                                 if (subMenus.length > 0) {
@@ -306,26 +313,19 @@
                                     '<li ' + dropDown + ' data-level="top">'
                                     + '<a data-url="' + m.action
                                     + toggle + '" data-title="' + m.functionName
-                                    + '" href="javascript:void(0);"> '
+                                    + '" href="/index.html?u=' + m.action + '">'
                                     + m.functionName
                                     + cart
                                     + '</a>';
                                 if (subMenus.length > 0) {
                                     ele = secondVerticalMenu(ele, menus, subMenus);
+                                    //ele = secondMenu(ele, menus, subMenus);
                                 }
                                 ele += '</li>';
                                 var li = $(ele);
-                                $(ul).append(li);
+                                $(ul).append(li);*/
                             }
                         });
-                        $(ul).find("li[class!=dropdown] > a")
-                            .each(function () {
-                                    var url = $(this).attr("data-url");
-                                    $(this).on("click", function () {
-                                        window.location.href = App.href + '/index.html?u=' + url;
-                                    });
-                                }
-                            );
                         refreshHref(ul);
                     } else if (result.code === 401) {
                         bootbox.alert("token失效,请登录!");
@@ -340,31 +340,16 @@
 
     var refreshHref = function (ul) {
         var location = window.location.href;
-        var url = location.substring(location.lastIndexOf("?u=") + 3);
-        if (location.lastIndexOf("?u=") > 0 && url != undefined && $.trim(url) != "") {
-            var title = App.menusMapping[url];
-            var f = App.requestMapping[url];
-            var a;
-            if (App.toggle == undefined || App.toggle == "v") {
-                a = $(ul).find("li[class!=dropdown] > a[data-url='" + url + "']");
-                a.parent().siblings("li").removeClass("active");
-                a.parent().parent().parent().siblings("li").removeClass("active");
-                a.parent().addClass("active");
-                a.parent().parent().parent().addClass("active");
-            } else {
-                a = $(ul).find("li[class!=submenu] > a[data-url='" + url + "']");
-                a.addClass("active");
-                a.parent().parent().removeClass("collapse").addClass("in");
-            }
-            if (f != undefined) {
-                App[f].page(title);
-            } else {
-                loadCommonMenu(url, title);
-            }
-        } else {
-            window.location.href = App.href + "/index.html?u=/api/index";
-        }
 
+        var pathname = window.location.pathname;
+        if (pathname === "/index.html" || pathname === "/") {
+            return true;
+        } else {
+            var validateFlag = validatePage("/api/validate"+pathname);
+            if (!validateFlag) {
+                window.location.href = App.href + "/index.html";
+            }
+        }
     };
 
     var loadCommonMenu = function (url, title) {
@@ -386,20 +371,117 @@
                 },
                 error: function (e) {
                     alert("页面不存在");
-                    window.location.href = App.href + "/index.html?u=/api/index";
+                    //window.location.href = App.href + "/index.html";
                 }
             }
         );
     };
 
+    /**
+     * 验证页面权限
+     *
+     * @param url
+     */
+    function validatePage(url) {
+        var flag = false;
+        $.ajax(
+            {
+                type: 'GET',
+                url: App.href + url,
+                async: false,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code === 200) {
+                        flag = true;
+                    } else {
+                        alert(result.message);
+                        flag = false;
+                        return false;
+                    }
+                },
+                error: function (e) {
+                    alert("页面不存在");
+                    falg = false;
+                    return false;
+                }
+            }
+        );
+
+        return flag;
+    }
+
+    /**
+     * 展现页面内容
+     *
+     * @param ele
+     */
+    function showPageInfo(ele) {
+        var tabUrl = $(ele).data('url');
+        var validateUrl = "/api/validate/" + tabUrl;
+
+        var valateflag = validatePage(validateUrl);
+
+        if(valateflag) {
+            $(ele).siblings().removeClass('super-accordion-selected');
+            $(ele).addClass('super-accordion-selected');
+
+            //新增一个选项卡
+            var tabTitle = $(ele).text();
+            //tab是否存在
+            if($("#tt").tabs('exists', tabTitle)) {
+                $("#tt").tabs('select', tabTitle);
+            } else {
+                var content = '<iframe scrolling="auto" frameborder="0"  src="' + tabUrl + '" style="width:100%;height:99%;"></iframe>';
+                $('#tt').tabs('add', {
+                    title: tabTitle,
+                    //content: content,
+                    href: tabUrl,
+                    closable: true
+                });
+            }
+        }
+
+        /*$.ajax(
+            {
+                type: 'GET',
+                url: App.href + validateUrl,
+                async: false,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code === 200) {
+                        $(ele).siblings().removeClass('super-accordion-selected');
+                        $(ele).addClass('super-accordion-selected');
+
+                        //新增一个选项卡
+                        var tabTitle = $(ele).text();
+                        //tab是否存在
+                        if($("#tt").tabs('exists', tabTitle)) {
+                            $("#tt").tabs('select', tabTitle);
+                        } else {
+                            var content = '<iframe scrolling="auto" frameborder="0"  src="' + tabUrl + '" style="width:100%;height:99%;"></iframe>';
+                            $('#tt').tabs('add', {
+                                title: tabTitle,
+                                //content: content,
+                                href: tabUrl,
+                                closable: true
+                            });
+                        }
+                    } else {
+                        alert(result.message);
+                        return false;
+                    }
+                },
+                error: function (e) {
+                    alert("页面不存在");
+                    return false;
+                }
+            }
+        );*/
+    };
 
     $(document).ready(function () {
-        $("#side-vertical").click(function () {
-            App.menu.toggleMenu();
-            setTimeout(function () {
-                window.location.reload();
-            }, 500);
-        });
         $("#user-info").click(function () {
             App.menu.showUserInfo();
         });
@@ -407,49 +489,11 @@
             App.menu.showTaskInfo();
         });
 
-        var toggle = App.toggle = ($.cookie('bi-menu-toggle') == undefined ? "v" : $.cookie('bi-menu-toggle'));
-        if (toggle == undefined) {
-            toggle = "v";
-        }
-        if (toggle == "v") {
-            App.menu.initVerticalMenu();
-        } else {
-            App.menu.initSideMenu();
-        }
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: App.href + "/api/workflow/normalApplication/count",
-            success: function (data) {
-                if (data.code === 200) {
-                    if (parseInt(data.message) > 0) {
-                        var span = $('<span style="margin-left: 10px;" class="label label-danger">' + parseInt(data.message) + '</span>')
-                        $('a[data-url="/api/workflow/approve/page"]').find("span").remove();
-                        $('a[data-url="/api/workflow/approve/page"]').append(span);
-                    } else {
-                        $('a[data-url="/api/workflow/approve/page"]').find("span").remove();
-                    }
-                }
-            }
+        // 左侧导航分类选中样式
+        $(".panel-body .accordion-body>ul").on('click', 'li', function() {
+            App.menu.showPageInfo($(this));
         });
-        $('a[data-url="/api/workflow/approve/page"]').everyTime('60s', function () {
-            var that = $(this);
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                url: App.href + "/api/workflow/normalApplication/count",
-                success: function (data) {
-                    if (data.code === 200) {
-                        if (parseInt(data.message) > 0) {
-                            var span = $('<span style="margin-left: 10px;" class="label label-danger">' + parseInt(data.message) + '</span>')
-                            that.find("span").remove();
-                            that.append(span);
-                        } else {
-                            that.find("span").remove();
-                        }
-                    }
-                }
-            });
-        });
+
+        App.menu.initVerticalMenu();
     });
 })(jQuery, window, document);

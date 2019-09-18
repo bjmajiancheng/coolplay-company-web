@@ -20,28 +20,6 @@ $(function() {
 
 	initTheme(localStorage.getItem('superTheme'));
 
-	// 左侧导航分类选中样式
-	$(".panel-body .accordion-body>ul").on('click', 'li', function() {
-		$(this).siblings().removeClass('super-accordion-selected');
-		$(this).addClass('super-accordion-selected');
-
-		//新增一个选项卡
-		var tabUrl = $(this).data('url');
-		var tabTitle = $(this).text();
-		//tab是否存在
-		if($("#tt").tabs('exists', tabTitle)) {
-			$("#tt").tabs('select', tabTitle);
-		} else {
-			var content = '<iframe scrolling="auto" frameborder="0"  src="' + tabUrl + '" style="width:100%;height:99%;"></iframe>';
-			$('#tt').tabs('add', {
-				title: tabTitle,
-				//content: content,
-				href: tabUrl,
-				closable: true
-			});
-		}
-	});
-
 	// 设置按钮的下拉菜单
 	$('.super-setting-icon').on('click', function() {
 		$('#mm').menu('show', {
@@ -89,7 +67,23 @@ $(function() {
 	$("#logout").on('click', function() {
 		$.messager.confirm('提示', '确定退出系统？', function(r) {
 			if(r) {
-				console.log('确定退出')
+				console.log('确定退出');
+                $.ajax(
+                    {
+                        type: 'GET',
+                        url: App.href + "/api/logout",
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (result) {
+                            if (result.code === 200) {
+                                $.cookie('coolplay_company_token', null);
+                                window.location.href = App.href + "/login.html";
+                            } else {
+                                alert(result.message);
+                            }
+                        }
+                    }
+                );
 			}
 		});
 	});
