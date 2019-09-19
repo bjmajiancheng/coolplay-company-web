@@ -7,7 +7,8 @@
         "initVerticalMenu": initVerticalMenu,
         "showUserInfo": showUserInfo,
         "showTaskInfo": showTaskInfo,
-        "showPageInfo": showPageInfo
+        "showPageInfo": showPageInfo,
+        "initPageMap": initPageMap
     };
     App.menusMapping = {};
 
@@ -204,14 +205,8 @@
         var eles = [];
         if (subMenus.length > 0) {
             $.each(subMenus, function (i, m) {
-                eles.append("<li data-url='"+ m.action +"'>" + m.functionName + "</li>");
-                /*ele += ('<li data-level="sub">'
-                    + '<a data-url="' + m.action
-                    + '" data-title="' + m.functionName
-                    + '" href="/index.html?u=' + m.action + '"><i class="' + (m.icon == null ? "glyphicon glyphicon-list" : m.icon) + '"></i> '
-                    + m.functionName
-                    + '</a>');
-                ele += '</li>';*/
+                var originAction = App.page.urls.mapping[m.action];
+                eles.push("<li data-url='"+ originAction +"' onclick='App.menu.showPageInfo($(this));'>" + m.functionName + "</li>");
             });
         }
         return eles.join('');
@@ -273,6 +268,7 @@
             {
                 type: 'GET',
                 url: App.href + "/api/index/current",
+                async: false,
                 contentType: "application/json",
                 dataType: "json",
                 success: function (result) {
@@ -289,41 +285,17 @@
                             if (m.parentId == 0) {
                                 var subMenus = getSubMenu(menus, m.id);
                                 var htmls = [];
-                                htmls.append("<div title=\"" + m.functionName + "\" data-options=\"iconCls:'fa "+ m.icon +"'\" >");
-                                htmls.append("<ul>");
+                                htmls.push("<div title=\"" + m.functionName + "\" data-options=\"iconCls:'fa "+ m.icon +"'\" >");
+                                htmls.push("<ul>");
                                 if(subMenus.length > 0) {
                                     var subEles = secondVerticalMenu(menus, subMenus);
-                                    htmls.append(subEles);
+                                    htmls.push(subEles);
                                 }
-                                htmls.append("</ul>");
-                                htmls.append("</div>");
+                                htmls.push("</ul>");
+                                htmls.push("</div>");
 
                                 var div = $(htmls.join(''));
                                 $(ul).append(div);
-
-                                /*var dropDown = "";
-                                var toggle = "";
-                                var cart = "";
-                                if (subMenus.length > 0) {
-                                    dropDown = 'class="dropdown"';
-                                    toggle = 'class="dropdown-toggle" data-toggle="dropdown"';
-                                    cart = '<span class="caret"></span>';
-                                }
-                                var ele =
-                                    '<li ' + dropDown + ' data-level="top">'
-                                    + '<a data-url="' + m.action
-                                    + toggle + '" data-title="' + m.functionName
-                                    + '" href="/index.html?u=' + m.action + '">'
-                                    + m.functionName
-                                    + cart
-                                    + '</a>';
-                                if (subMenus.length > 0) {
-                                    ele = secondVerticalMenu(ele, menus, subMenus);
-                                    //ele = secondMenu(ele, menus, subMenus);
-                                }
-                                ele += '</li>';
-                                var li = $(ele);
-                                $(ul).append(li);*/
                             }
                         });
                         refreshHref(ul);
@@ -441,59 +413,39 @@
                 });
             }
         }
+    }
 
-        /*$.ajax(
-            {
-                type: 'GET',
-                url: App.href + validateUrl,
-                async: false,
-                contentType: "application/json",
-                dataType: "json",
-                success: function (result) {
-                    if (result.code === 200) {
-                        $(ele).siblings().removeClass('super-accordion-selected');
-                        $(ele).addClass('super-accordion-selected');
+    /**
+     * 初始化页面映射
+     */
+    function initPageMap() {
+        App.page.urls.mapping = {};
+        App.page.urls.reverseMapping = {};
+        if(App.page.urls.length == 0) {
+            return;
+        }
 
-                        //新增一个选项卡
-                        var tabTitle = $(ele).text();
-                        //tab是否存在
-                        if($("#tt").tabs('exists', tabTitle)) {
-                            $("#tt").tabs('select', tabTitle);
-                        } else {
-                            var content = '<iframe scrolling="auto" frameborder="0"  src="' + tabUrl + '" style="width:100%;height:99%;"></iframe>';
-                            $('#tt').tabs('add', {
-                                title: tabTitle,
-                                //content: content,
-                                href: tabUrl,
-                                closable: true
-                            });
-                        }
-                    } else {
-                        alert(result.message);
-                        return false;
-                    }
-                },
-                error: function (e) {
-                    alert("页面不存在");
-                    return false;
-                }
-            }
-        );*/
-    };
+        $.each(App.page.urls, function(i, m){
+            var originUrl = m;
+            var url = originUrl.replace(/-[a-zA-Z0-9]+.html$/g, '.html');
+
+            App.page.urls.mapping[url] = originUrl;
+            App.page.urls.reverseMapping[originUrl] = url;
+        });
+
+    }
 
     $(document).ready(function () {
+        //初始化文件映射
+        App.menu.initPageMap();
+        //初始化菜单信息
+        App.menu.initVerticalMenu();
+
         $("#user-info").click(function () {
             App.menu.showUserInfo();
         });
         $("#task-info").click(function () {
             App.menu.showTaskInfo();
         });
-
-        // 左侧导航分类选中样式
-        $(".panel-body .accordion-body>ul").on('click', 'li', function() {
-            App.menu.showPageInfo($(this));
-        });
-
-        App.menu.initVerticalMenu();
     });
 })(jQuery, window, document);

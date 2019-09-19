@@ -57,36 +57,36 @@
     <div class="easyui-accordion" data-options="border:false,fit:true,selected:true" id="vertical-menu" >
         <div title="布局" data-options="iconCls:'fa fa-desktop'" >
             <ul>
-                <li data-url='dvd/example/panel.html'>面板</li>
-                <li data-url='dvd/example/tabs.html'>选项卡</li>
-                <li data-url='dvd/example/accordion.html'>分类</li>
-                <li data-url='dvd/example/layout.html'>布局</li>
+                <li data-url='dvd/example/panel.html' onclick="App.menu.showPageInfo($(this));">面板</li>
+                <li data-url='dvd/example/tabs.html' onclick="App.menu.showPageInfo($(this));">选项卡</li>
+                <li data-url='dvd/example/accordion.html' onclick="App.menu.showPageInfo($(this));">分类</li>
+                <li data-url='dvd/example/layout.html' onclick="App.menu.showPageInfo($(this));">布局</li>
             </ul>
         </div>
         <div title="基本元素" data-options="iconCls:'fa fa-wpforms'">
             <ul>
-                <li data-url='dvd/example/button.html'>按钮</li>
-                <li data-url='dvd/example/form.html'>表单</li>
-                <li data-url="dvd/example/menu.html">菜单</li>
-                <li data-url='dvd/example/other.html'>其他</li>
+                <li data-url='dvd/example/button.html' onclick="App.menu.showPageInfo($(this));">按钮</li>
+                <li data-url='dvd/example/form.html' onclick="App.menu.showPageInfo($(this));">表单</li>
+                <li data-url="dvd/example/menu.html" onclick="App.menu.showPageInfo($(this));">菜单</li>
+                <li data-url='dvd/example/other.html' onclick="App.menu.showPageInfo($(this));">其他</li>
             </ul>
         </div>
         <div title="窗口" data-options="iconCls:'fa fa-window-maximize'">
             <ul>
-                <li data-url='dvd/example/window.html'>窗口</li>
-                <li data-url='dvd/example/dialog.html'>对话框</li>
-                <li data-url="dvd/example/message.html">消息窗口</li>
+                <li data-url='dvd/example/window.html' onclick="App.menu.showPageInfo($(this));">窗口</li>
+                <li data-url='dvd/example/dialog.html' onclick="App.menu.showPageInfo($(this));">对话框</li>
+                <li data-url="dvd/example/message.html" onclick="App.menu.showPageInfo($(this));">消息窗口</li>
             </ul>
         </div>
         <div title="表格和树" data-options="iconCls:'fa fa-table'">
             <ul>
-                <li data-url='dvd/example/datagrid.html'>表格</li>
-                <li data-url='dvd/example/tree.html'>树</li>
+                <li data-url='dvd/example/datagrid.html' onclick="App.menu.showPageInfo($(this));">表格</li>
+                <li data-url='dvd/example/tree.html' onclick="App.menu.showPageInfo($(this));">树</li>
             </ul>
         </div>
         <div title="扩展" data-options="iconCls:'fa fa-sitemap'">
             <ul>
-                <li data-url='dvd/pagination.html'>嘿嘿嘿</li>
+                <li data-url='dvd/pagination.html' onclick="App.menu.showPageInfo($(this));">嘿嘿嘿</li>
             </ul>
         </div>
     </div>
@@ -143,21 +143,29 @@
 
 <!--easyui-->
 <script src="cdn/vendors/easyui/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="cdn/vendors/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="cdn/vendors/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
 
 <script src="cdn/vendors/bootstrap/js/bootstrap.js"></script>
 <script src="cdn/vendors/bootbox.js"></script>
 <script src="cdn/vendors/jquery.tmpl.min.js"></script>
 <script src="cdn/vendors/jquery.cookie/jquery.cookie.js"></script>
 
-<script src="cdn/super/super.js"></script>
-<script src="cdn/super/superDemo.js" type="text/javascript" charset="utf-8"></script>
-
 
 <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/nav.js" type="text/javascript" charset="utf-8"></script>
+
+
+<script src="cdn/vendors/easyui/jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="cdn/vendors/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript" charset="utf-8"></script>
+<script src="cdn/super/super.js"></script>
+<script src="cdn/super/superDemo.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+    App.page = {};
+    App.page.urls = [
+        "dvd/example/window.html"
+    ];
+</script>
 </body>
 
 </html>
