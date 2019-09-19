@@ -276,7 +276,7 @@
                         var menus = result.data.functionList;
                         var userInfo = result.data.user;
                         App.currentUser = userInfo;
-                        $("ul.nav").find("#gUserName").html(userInfo.displayName);
+                        $("li.user").find("#gUserName").html(userInfo.displayName);
                         var topMenus = getTopMenu(menus);
                         $.each(menus, function (i, m) {
                             App.menusMapping[m.action] = m.functionName;
