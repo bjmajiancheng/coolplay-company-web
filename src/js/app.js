@@ -127,6 +127,135 @@
         }
     };
 
+    /**
+     * get请求
+     *
+     * @param uri
+     * @param params
+     */
+    App.getRequestData = function (uri, params, callback) {
+        $.ajax(
+            {
+                type: 'GET',
+                url: App.href + uri,
+                data: params,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code === 200) {
+                        callback(result.data);
+                    } else if (result.code === 401) {
+                        bootbox.alert("token失效,请登录!");
+                        window.location.href = '../login.html';
+                    }
+                },
+                error: function (err) {
+                }
+            }
+        );
+    };
+
+    /**
+     * get请求
+     *
+     * @param uri
+     * @param params
+     */
+    App.getRequest = function (uri, params, callback) {
+        $.ajax(
+            {
+                type: 'GET',
+                url: App.href + uri,
+                data: params,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code === 200) {
+                        callback(result);
+                    } else if (result.code === 401) {
+                        bootbox.alert("token失效,请登录!");
+                        window.location.href = '../login.html';
+                    }
+                },
+                error: function (err) {
+                }
+            }
+        );
+    };
+
+    /**
+     * post请求
+     *
+     * @param uri
+     * @param params
+     */
+    App.postRequestData = function(uri, params, callback) {
+        $.ajax(
+            {
+                type: 'POST',
+                url: App.href + uri,
+                data: params,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code === 200) {
+                        callback(result.data);
+                    } else if (result.code === 401) {
+                        bootbox.alert("token失效,请登录!");
+                        window.location.href = '../login.html';
+                    }
+                },
+                error: function (err) {
+                }
+            }
+        );
+    };
+
+    /**
+     * post请求
+     *
+     * @param uri
+     * @param params
+     */
+    App.postRequest = function(uri, params, callback) {
+        $.ajax(
+            {
+                type: 'POST',
+                url: App.href + uri,
+                data: params,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
+                    if (result.code === 200) {
+                        callback(result);
+                    } else if (result.code === 401) {
+                        bootbox.alert("token失效,请登录!");
+                        window.location.href = '../login.html';
+                    }
+                },
+                error: function (err) {
+                }
+            }
+        );
+    };
+
+    /**
+     * 展示文本
+     *
+     * @param title
+     * @param content
+     */
+    App.showMsg = function(title, msg) {
+        $.messager.show({
+            title: title,
+            msg: msg,
+            timeout:2000,
+            showType:null,
+            style:{
+            }
+        })
+    };
+
     App.$content = function () {
         return $("#main-body");
     };

@@ -1,10 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title></title>
 </head>
-<body>
 
+<body>
+<div class="super-theme-example">
+    <div class="form-item">
+        <label for="displayName" class="label-top">账号：</label>
+        <input id="displayName" class="easyui-validatebox easyui-textbox" prompt="请输入账号" data-options="validType:'length[0,10]'">
+    </div>
+    <div class="form-item">
+        <label for="contactPhone" class="label-top">手机号：</label>
+        <input id="contactPhone" class="easyui-validatebox easyui-textbox" prompt="请输入手机号" data-options="validType:'length[8, 11]'">
+    </div>
+</div>
+
+<div class="clear"></div>
+<div class="super-theme-example">
+    <a href="javascript:void(0)" onclick="refreshCompanyUser()" class="easyui-linkbutton primary">查询</a>
+    <a href="javascript:void(0)" onclick="addCompanyUser()" class="easyui-linkbutton primary">新增</a>
+    <div style="height: 340px;">
+        <table id="companyUserTab"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#companyUserTab').datagrid({
+        url: App.href + '/api/common/companyUser/list',
+        fit: true,
+        pagination: true,
+        fitColumns: true,
+        method: 'GET',
+        pageSize: 10,
+        pageList: [10, 25, 50, 100, 200],
+        height: 340,
+        queryParams: {'displayName': $("#displayName").val(), 'contactPhone': $('#contactPhone').val()},
+        toolbar: [],
+        columns: [
+            [{
+                field: 'id',
+                title: '编号',
+                sortable: true,
+                width: 50
+            }, {
+                field: 'displayName',
+                title: '账号',
+                width: 50
+            }, {
+                field: 'contactPhone',
+                title: '手机号',
+                width: 50
+            }, {
+                field: 'roleName',
+                title: '角色',
+                width: 50
+            }, {
+                field: 'customer_col1',
+                title: '用户状态',
+                width: 50,
+                formatter: function(value, row, index) {
+                    if(row.enabled == 1) {
+                        return "正常";
+                    } else {
+                        return "禁用";
+                    }
+                }
+            }, {
+                field: 'customer_col2',
+                title: '操作',
+                width: 50,
+                align: 'center',
+                formatter: function(value, row, index) {
+                    var btns = new Array();
+                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="updateUserEnabled('+ row.id +', 1);">启用</a>&nbsp;');
+                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="updateUserEnabled('+ row.id +', 0);">禁用</a>&nbsp;');
+                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">查看</a>&nbsp;');
+                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">修改</a>');
+                    return btns.join('');
+                }
+
+            }]
+        ]
+    });
+
+    function refreshCompanyUser() {
+        var queryParams = {'displayName': $("#displayName").val(), 'contactPhone': $('#contactPhone').val()};
+        $('#companyUserTab').datagrid('options').queryParams = queryParams;
+
+        $('#companyUserTab').datagrid('reload');
+    }
+
+    function updateUserEnabled(userId, enabled) {
+        var info = "启用";
+        if(enabled == 0) {
+            info = "禁用";
+        }
+        $.messager.confirm('确认', '您确认想要'+ info +'用户吗？', function(r) {
+            if(r) {
+                App.getRequestData('/api/common/companyUser/updateUserEnabled', {'userId': userId, 'enabled': enabled}, function(){
+                    App.showMsg('完成', info + '操作成功');
+                    refreshCompanyUser();
+                });
+            }
+        });
+    }
+
+
+</script>
 </body>
+
 </html>
