@@ -245,15 +245,21 @@
      * @param title
      * @param content
      */
-    App.showMsg = function(title, msg) {
+    App.showMsg = function(alertText) {
+
         $.messager.show({
-            title: title,
-            msg: msg,
-            timeout:2000,
-            showType:null,
-            style:{
+            height: 42,
+            timeout: 1500,
+            showSpeed: 200,
+            msg: '<i class="fa fa-info-circle"></i>&nbsp; ' + alertText,
+            style: {
+                right: '',
+                top: document.body.scrollTop + document.documentElement.scrollTop + 20,
+                bottom: '',
+                'z-index': 999,
+                'box-shadow': '0 1px 6px rgba(0,0,0,.2)'
             }
-        })
+        });
     };
 
     App.$content = function () {

@@ -3,38 +3,32 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>角色管理</title>
+    <title>部门管理</title>
 </head>
 
 <body>
 <div class="super-theme-example">
     <div class="form-item col-md-4">
-        <label class="label-top">角色名称：</label>
-        <input name="roleName" class="easyui-validatebox easyui-textbox" prompt="请输入角色名称">
+        <label class="label-top">部门名称：</label>
+        <input name="deptName" class="easyui-validatebox easyui-textbox" prompt="请输入部门名称">
     </div>
 
     <div class="form-item col-md-3">
-        <a href="javascript:void(0)" onclick="refreshCompanyRole()" class="easyui-linkbutton primary">查询</a>
-        <a href="javascript:void(0)" onclick="addCompanyRole()" class="easyui-linkbutton primary">新增角色</a>
+        <a href="javascript:void(0)" onclick="refreshCompanyDept()" class="easyui-linkbutton primary">查询</a>
+        <a href="javascript:void(0)" onclick="addCompanyDept()" class="easyui-linkbutton primary">新增部门</a>
     </div>
 </div>
 
 <div class="clear"></div>
 <div class="super-theme-example">
     <div style="height: 340px;">
-        <table id="companyRoleTab"></table>
+        <table id="companyDeptTab"></table>
     </div>
 
-    <div id="companyRoleWin" class="align_center" style="display: none;padding-top:30px;" title="新增角色">
+    <div id="companyDeptWin" class="align_center" style="display: none;padding-top:30px;" title="新增部门">
         <div class="form-item col-md-10">
-            <label class="label-top">角色名称：</label>
-            <input class="easyui-validatebox easyui-textbox" prompt="请输入角色名称">
-        </div>
-        <div class="form-item col-md-10">
-            <label class="label-top">绑定权限：</label>
-            <select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="roleId">
-
-            </select>
+            <label class="label-top">部门名称：</label>
+            <input class="easyui-validatebox easyui-textbox" prompt="请输入部门名称">
         </div>
         <div class="form-item col-md-10">
             <a href="javascript:void(0)" class="easyui-linkbutton primary">保存</a>
@@ -44,8 +38,8 @@
 </div>
 
 <script type="text/javascript">
-    $('#companyRoleTab').datagrid({
-        url: App.href + '/api/common/companyRole/list',
+    $('#companyDeptTab').datagrid({
+        url: App.href + '/api/common/companyDept/list',
         fit: true,
         pagination: true,
         fitColumns: true,
@@ -65,9 +59,9 @@
             }
         },
         onBeforeLoad: function (param) {
-            var roleName = $("input[name=roleName]").val();
+            var deptName = $("input[name=deptName]").val();
 
-            param.roleName = roleName;
+            param.deptName = deptName;
         },
         columns: [
             [{
@@ -76,8 +70,8 @@
                 sortable: true,
                 width: 50
             }, {
-                field: 'roleName',
-                title: '角色名称',
+                field: 'deptName',
+                title: '部门名称',
                 width: 50
             }, {
                 field: 'ctime',
@@ -90,15 +84,15 @@
                 align: 'center',
                 formatter: function(value, row, index) {
                     var btns = new Array();
-                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">绑定权限</a>&nbsp;');
-                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">删除</a>');
+                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">查看</a>&nbsp;');
+                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">禁用</a>');
                     return btns.join('');
                 }
             }]
         ]
     });
 
-    function refreshCompanyRole() {
+    function refreshCompanyDept() {
 
     }
 
@@ -106,8 +100,8 @@
      * 添加公司角色
      *
      */
-    function addCompanyRole() {
-        $('#companyRoleWin').window({
+    function addCompanyDept() {
+        $('#companyDeptWin').window({
             width:600,
             height:400,
             modal:true

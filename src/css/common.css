@@ -1,6 +1,6 @@
 .form-item {
+    margin-left: 15px;
     margin-bottom: 15px;
-    width: 50%;
     float: left;
 }
 
@@ -9,11 +9,22 @@
     display: inline-block;
 }
 
-.form-item input,
-select {
+.form-item input, select {
     width: 170px;
 }
 
 .clear{
     clear:both
+}
+
+.align_center {
+    text-align: center
+}
+
+.align_left {
+    text-align: center
+}
+
+.align_right {
+    text-align: center
 }

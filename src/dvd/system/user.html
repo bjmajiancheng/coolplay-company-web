@@ -3,27 +3,65 @@
 
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>用户管理</title>
 </head>
 
 <body>
 <div class="super-theme-example">
-    <div class="form-item">
+    <div class="form-item col-md-4">
         <label for="displayName" class="label-top">账号：</label>
-        <input id="displayName" class="easyui-validatebox easyui-textbox" prompt="请输入账号" data-options="validType:'length[0,10]'">
+        <input id="displayName" class="easyui-validatebox easyui-textbox" prompt="请输入账号">
     </div>
-    <div class="form-item">
+    <div class="form-item col-md-4">
         <label for="contactPhone" class="label-top">手机号：</label>
-        <input id="contactPhone" class="easyui-validatebox easyui-textbox" prompt="请输入手机号" data-options="validType:'length[8, 11]'">
+        <input id="contactPhone" class="easyui-validatebox easyui-textbox" prompt="请输入手机号">
+    </div>
+
+    <div class="form-item col-md-3">
+        <a href="javascript:void(0)" onclick="refreshCompanyUser()" class="easyui-linkbutton primary">查询</a>
+        <a href="javascript:void(0)" onclick="addCompanyUser()" class="easyui-linkbutton primary">新增账号</a>
     </div>
 </div>
 
 <div class="clear"></div>
 <div class="super-theme-example">
-    <a href="javascript:void(0)" onclick="refreshCompanyUser()" class="easyui-linkbutton primary">查询</a>
-    <a href="javascript:void(0)" onclick="addCompanyUser()" class="easyui-linkbutton primary">新增</a>
     <div style="height: 340px;">
         <table id="companyUserTab"></table>
+    </div>
+
+
+    <div id="companyUserWin" class="align_center" style="display: none;padding-top:30px;" title="新增用户">
+        <div class="form-item col-md-10">
+            <label class="label-top">账户：</label>
+            <input class="easyui-validatebox easyui-textbox" prompt="请输入账户">
+        </div>
+        <div class="form-item col-md-10">
+            <label class="label-top">角色：</label>
+            <select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="roleId">
+
+            </select>
+        </div>
+        <div class="form-item col-md-10">
+            <label class="label-top">所属部门：</label>
+            <select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="deptId">
+
+            </select>
+        </div>
+        <div class="form-item col-md-10">
+            <label class="label-top">联系电话：</label>
+            <input class="easyui-validatebox easyui-textbox" prompt="请输入联系电话" name="contactPhone">
+        </div>
+        <div class="form-item col-md-10">
+            <label class="label-top">账号状态：</label>
+            <select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="enabled">
+                <option value="1" selected>启用</option>
+                <option value="0">禁用</option>
+            </select>
+        </div>
+        <div class="form-item col-md-10">
+            <a href="javascript:void(0)" class="easyui-linkbutton primary">保存</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton primary">取消</a>
+        </div>
     </div>
 </div>
 
@@ -39,6 +77,22 @@
         height: 340,
         queryParams: {'displayName': $("#displayName").val(), 'contactPhone': $('#contactPhone').val()},
         toolbar: [],
+        loadFilter: function(data) {
+            if (data.code === 401) {
+                App.showMsg('token失效,请登录!');
+                window.location.href = App.href + '/login.html';
+                return {"total":0, "rows": "[]"};
+            } else {
+                return data;
+            }
+        },
+        onBeforeLoad: function (param) {
+            var displayName = $("#displayName").val();
+            var contactPhone = $('#contactPhone').val();
+
+            param.displayName = displayName;
+            param.contactPhone = contactPhone;
+        },
         columns: [
             [{
                 field: 'id',
@@ -87,9 +141,6 @@
     });
 
     function refreshCompanyUser() {
-        var queryParams = {'displayName': $("#displayName").val(), 'contactPhone': $('#contactPhone').val()};
-        $('#companyUserTab').datagrid('options').queryParams = queryParams;
-
         $('#companyUserTab').datagrid('reload');
     }
 
@@ -101,10 +152,22 @@
         $.messager.confirm('确认', '您确认想要'+ info +'用户吗？', function(r) {
             if(r) {
                 App.getRequestData('/api/common/companyUser/updateUserEnabled', {'userId': userId, 'enabled': enabled}, function(){
-                    App.showMsg('完成', info + '操作成功');
+                    App.showMsg(info + '操作成功');
                     refreshCompanyUser();
                 });
             }
+        });
+    }
+
+    /**
+     * 添加公司用户
+     *
+     */
+    function addCompanyUser() {
+        $('#companyUserWin').window({
+            width:600,
+            height:400,
+            modal:true
         });
     }
 
