@@ -11,10 +11,13 @@
     <script src="js/super.js" type="text/javascript" charset="utf-8"></script>-->
     <!--测试dist-->
     <link href="cdn/vendors/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="cdn/vendors/zTree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="cdn/vendors/easyui/themes/gray/easyui.css">
     <link rel="stylesheet" href="cdn/super/css/font-awesome.min.css">
-    <link rel="stylesheet" href="cdn/super/superRed.css" id="themeCss">
+    <link rel="stylesheet" href="cdn/super/superBlue.css" id="themeCss">
     <link rel="stylesheet" href="css/common.css">
+
 
 </head>
 
@@ -57,40 +60,7 @@
 <div data-options="region:'west',title:'MAIN NAVIGATION',border:false" class="super-west">
     <!--左侧导航 style="display:none;"-->
     <div class="easyui-accordion" data-options="border:false,fit:true,selected:true" id="vertical-menu" >
-        <div title="布局" data-options="iconCls:'fa fa-desktop'" >
-            <ul>
-                <li data-url='dvd/example/panel.html' onclick="App.menu.showPageInfo($(this));">面板</li>
-                <li data-url='dvd/example/tabs.html' onclick="App.menu.showPageInfo($(this));">选项卡</li>
-                <li data-url='dvd/example/accordion.html' onclick="App.menu.showPageInfo($(this));">分类</li>
-                <li data-url='dvd/example/layout.html' onclick="App.menu.showPageInfo($(this));">布局</li>
-            </ul>
-        </div>
-        <div title="基本元素" data-options="iconCls:'fa fa-wpforms'">
-            <ul>
-                <li data-url='dvd/example/button.html' onclick="App.menu.showPageInfo($(this));">按钮</li>
-                <li data-url='dvd/example/form.html' onclick="App.menu.showPageInfo($(this));">表单</li>
-                <li data-url="dvd/example/menu.html" onclick="App.menu.showPageInfo($(this));">菜单</li>
-                <li data-url='dvd/example/other.html' onclick="App.menu.showPageInfo($(this));">其他</li>
-            </ul>
-        </div>
-        <div title="窗口" data-options="iconCls:'fa fa-window-maximize'">
-            <ul>
-                <li data-url='dvd/example/window.html' onclick="App.menu.showPageInfo($(this));">窗口</li>
-                <li data-url='dvd/example/dialog.html' onclick="App.menu.showPageInfo($(this));">对话框</li>
-                <li data-url="dvd/example/message.html" onclick="App.menu.showPageInfo($(this));">消息窗口</li>
-            </ul>
-        </div>
-        <div title="表格和树" data-options="iconCls:'fa fa-table'">
-            <ul>
-                <li data-url='dvd/example/datagrid.html' onclick="App.menu.showPageInfo($(this));">表格</li>
-                <li data-url='dvd/example/tree.html' onclick="App.menu.showPageInfo($(this));">树</li>
-            </ul>
-        </div>
-        <div title="扩展" data-options="iconCls:'fa fa-sitemap'">
-            <ul>
-                <li data-url='dvd/pagination.html' onclick="App.menu.showPageInfo($(this));">嘿嘿嘿</li>
-            </ul>
-        </div>
+
     </div>
 </div>
 <div data-options="region:'center'" style="padding-top: 2px;">
@@ -150,6 +120,9 @@
 <script src="cdn/vendors/bootbox.js"></script>
 <script src="cdn/vendors/jquery.tmpl.min.js"></script>
 <script src="cdn/vendors/jquery.cookie/jquery.cookie.js"></script>
+<script src="cdn/vendors/zTree/js/jquery.ztree.core-3.5.min.js"></script>
+<script src="cdn/vendors/zTree/js/jquery.ztree.excheck-3.5.min.js"></script>
+<script src="cdn/vendors/zTree/js/jquery.ztree.exedit-3.5.min.js"></script>
 
 
 <script src="js/app.js" type="text/javascript" charset="utf-8"></script>
@@ -163,13 +136,15 @@
 <script src="cdn/super/superDemo.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
-    App.page = {};
-    App.page.urls = [
-        "dvd/example/window.html",
-        "dvd/system/function.html",
-        "dvd/system/role.html",
-        "dvd/system/user.html"
-    ];
+    ;(function ($, window, document, undefined){
+        window.App.page = {};
+        window.App.page.urls = [
+            "dvd/example/window.html",
+            "dvd/system/function.html",
+            "dvd/system/role.html",
+            "dvd/system/user.html"
+        ];
+    })(jQuery, window, document);
 </script>
 </body>
 

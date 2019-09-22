@@ -266,4 +266,76 @@
         return $("#main-body");
     };
 
+    App.treeSetting = function(data) {
+        var chkboxType = data.chkboxType === undefined ? {"Y": "p", "N": "p"} : data.chkboxType;
+        var beforeCheck = data.beforeCheck === undefined ? function () {
+        } : data.beforeCheck;
+
+        var setting = {
+            view: {
+                addHoverDom: false,
+                removeHoverDom: false,
+                selectedMulti: false
+            },
+            check: {
+                enable: true,
+                chkStyle: data.chkStyle,
+                radioType: "all",
+                chkboxType: chkboxType
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            async: {
+                enable: true,
+                url: data.url,
+                type: "POST",
+                autoParam: data.autoParam
+            },
+            edit: {
+                enable: false
+            },
+            callback: {
+                beforeCheck: beforeCheck,
+                onCheck: function (e, treeId, treeNode) {
+                    var zTree = $.fn.zTree.getZTreeObj(treeId);
+                    var nodes = zTree.getCheckedNodes(true);
+                    var ids = [];
+                    if (nodes.length > 0) {
+                        for (var i in nodes) {
+                            ids.push(nodes[i].id);
+                        }
+                        $("[role='" + treeId + "_input']").val(ids)
+                            .attr("value", ids);
+                    } else {
+                        $("[role='" + treeId + "_input']").val("")
+                            .attr("value", "");
+                    }
+                    $("[role='" + treeId + "_input']").trigger("change");
+                },
+                onAsyncSuccess: function (event, treeId, treeNode, msg) {
+                    var zTree = $.fn.zTree.getZTreeObj(treeId);
+                    var value = $("[role='" + treeId + "_input']").attr("value");
+                    if (value) {
+                        var ids = value.split(",");
+                        if (ids.length > 0) {
+                            for (var i in ids) {
+                                var c_node = zTree.getNodeByParam("id",
+                                    ids[i], null);
+                                if (c_node) {
+                                    zTree.checkNode(c_node, true, false);
+                                }
+                            }
+                        }
+                    }
+                    zTree.expandAll(true);
+                }
+            }
+        };
+
+        return setting;
+    }
+
 })(jQuery, window, document);

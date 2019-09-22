@@ -25,13 +25,40 @@
         <table id="companyFunctionTab"></table>
     </div>
 
-    <div id="companyFunctionWin" class="align_center" style="display: none;padding-top:30px;" title="新增菜单">
-        <div class="form-item col-md-10">
+    <div id="companyFunctionWin" style="display: none;padding-top:30px;" title="新增菜单">
+        <div class="form-item col-md-12">
+            <label class="label-top col-md-1" style="margin-left:27px;">父菜单：</label>
+
+            <input drole="main" role="tree_functionTree_input" data-type="tree-input" type="text" name="parentId" value="" class="hide"/>
+            <ul id="tree_functionTree" class="ztree col-md-8"></ul>
+        </ul>
+
+        <div class="form-item col-md-12">
             <label class="label-top">菜单名称：</label>
             <input class="easyui-validatebox easyui-textbox" prompt="请输入菜单名称">
         </div>
 
-        <div class="form-item col-md-10">
+        <div class="form-item col-md-12">
+            <label class="label-top">菜单路径：</label>
+            <input class="easyui-validatebox easyui-textbox" prompt="请输入菜单路径">
+        </div>
+
+        <div class="form-item col-md-12">
+            <label class="label-top">是否显示：</label>
+            <label class="radio-inline">
+                <input type="radio" name="display" value="1" checked> 显示
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="display" value="0"> 隐藏
+            </label>
+        </div>
+
+        <div class="form-item col-md-12">
+            <label class="label-top">排序号：</label>
+            <input class="easyui-validatebox easyui-textbox" prompt="请输入排序号">
+        </div>
+
+        <div class="form-item col-md-12">
             <a href="javascript:void(0)" class="easyui-linkbutton primary">保存</a>
             <a href="javascript:void(0)" class="easyui-linkbutton primary">取消</a>
         </div>
@@ -39,62 +66,88 @@
 </div>
 
 <script type="text/javascript">
-    $('#companyFunctionTab').datagrid({
-        url: App.href + '/api/common/companyFunction/list',
-        fit: true,
-        pagination: true,
-        fitColumns: true,
-        method: 'GET',
-        pageSize: 10,
-        pageList: [10, 25, 50, 100, 200],
-        height: 340,
-        queryParams: {},
-        toolbar: [],
-        loadFilter: function(data) {
-            if (data.code === 401) {
-                App.showMsg('token失效,请登录!');
-                window.location.href = App.href + '/login.html';
-                return {"total":0, "rows": "[]"};
-            } else {
-                return data;
-            }
-        },
-        onBeforeLoad: function (param) {
-            var functionName = $("input[name=functionName]").val();
 
-            param.functionName = functionName;
-        },
-        columns: [
-            [{
-                field: 'id',
-                title: '序号',
-                sortable: true,
-                width: 50
-            }, {
-                field: 'functionName',
-                title: '部门名称',
-                width: 50
-            }, {
-                field: 'ctime',
-                title: '创建时间',
-                width: 50
-            }, {
-                field: 'custom_col1',
-                title: '操作',
-                width: 50,
-                align: 'center',
-                formatter: function(value, row, index) {
-                    var btns = new Array();
-                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">查看</a>&nbsp;');
-                    btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">修改</a>');
-                    return btns.join('');
+    ;(function ($, window, document, undefined){
+        $.fn.zTree.init($("#tree_functionTree"), App.treeSetting({
+            url: App.href + "/api/common/companyFunction/treeNodes",
+            expandAll: true,
+            autoParam: ["id", "name", "pId"],
+            chkStyle: "radio"
+        }));
+
+        $('#companyFunctionTab').datagrid({
+            url: App.href + '/api/common/companyFunction/list',
+            fit: true,
+            pagination: true,
+            fitColumns: true,
+            method: 'GET',
+            pageSize: 10,
+            pageList: [10, 25, 50, 100, 200],
+            height: 340,
+            queryParams: {},
+            toolbar: [],
+            loadFilter: function(data) {
+                if (data.code === 401) {
+                    App.showMsg('token失效,请登录!');
+                    window.location.href = App.href + '/login.html';
+                    return {"total":0, "rows": "[]"};
+                } else {
+                    return data;
                 }
-            }]
-        ]
-    });
+            },
+            onBeforeLoad: function (param) {
+                var functionName = $("input[name=functionName]").val();
+
+                param.functionName = functionName;
+            },
+            columns: [
+                [{
+                    field: 'id',
+                    title: '序号',
+                    sortable: true,
+                    width: 20
+                }, {
+                    field: 'parentId',
+                    title: '父id',
+                    sortable: true,
+                    width: 20
+                }, {
+                    field: 'functionName',
+                    title: '菜单名称',
+                    width: 30
+                }, {
+                    field: 'action',
+                    title: '菜单路径',
+                    width: 100
+                }, {
+                    field: 'sort',
+                    title: '排序号',
+                    sortable: true,
+                    width: 30
+                }, {
+                    field: 'ctime',
+                    title: '创建时间',
+                    sortable: true,
+                    width: 50
+                }, {
+                    field: 'custom_col1',
+                    title: '操作',
+                    width: 50,
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var btns = new Array();
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">查看</a>&nbsp;');
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">修改</a>');
+                        return btns.join('');
+                    }
+                }]
+            ]
+        });
+
+    })(jQuery, window, document);
 
     function refreshCompanyFunction() {
-
+        $('#companyFunctionTab').datagrid('reload');
     }
 
     /**
@@ -103,8 +156,8 @@
      */
     function addCompanyFunction() {
         $('#companyFunctionWin').window({
-            width:600,
-            height:400,
+            width: "80%",
+            height: "80%",
             modal:true
         });
     }
