@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>关联企业审批</title>
+</head>
+<body>
+<div class="super-theme-example">
+    <div class="search-form-item col-md-4">
+        <label class="label-top">圈子名称：</label>
+        <input name="circleName" class="easyui-validatebox easyui-textbox" prompt="请输入圈子名称">
+    </div>
+
+    <div class="search-form-item col-md-4">
+        <label class="label-top">审核状态：</label>
+        <select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="reviewStatus">
+            <option selected>全部</option>
+            <option value="0">未审核</option>
+            <option value="1">已审核</option>
+        </select>
+    </div>
+
+    <div class="search-form-item col-md-6">
+        <label class="label-top">时间：</label>
+        <input type="text" class="easyui-datebox" name="applicationStartTime"/> ~ <input type="text" class="easyui-datebox" name="applicationEndTime"/>
+    </div>
+
+    <div class="search-form-item col-md-3">
+        <a href="javascript:void(0)" onclick="refreshCompanyCircle()" class="easyui-linkbutton primary">查询</a>
+    </div>
+</div>
+
+<div class="clear"></div>
+<div class="super-theme-example">
+    <div style="height: 340px;">
+        <table id="companyCircleTab"></table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    ;(function ($, window, document, undefined){
+
+        $('#companyCircleTab').datagrid({
+            url: App.href + '/api/company/companyCircle/list',
+            fit: true,
+            pagination: true,
+            fitColumns: true,
+            method: 'GET',
+            pageSize: 10,
+            pageList: [10, 25, 50, 100, 200],
+            height: 340,
+            queryParams: {},
+            toolbar: [],
+            loadFilter: function(data) {
+                if (data.code === 401) {
+                    App.showMsg('token失效,请登录!');
+                    window.location.href = App.href + '/login.html';
+                    return {"total":0, "rows": "[]"};
+                } else {
+                    return data;
+                }
+            },
+            onBeforeLoad: function (param) {
+                var circleName = $("input[name=circleName]").val();
+                var reviewStatus = $("input[name=reviewStatus]").val();
+                var applicationTime = $("input[name=applicationTime]").val();
+
+                param.circleName = circleName;
+                param.reviewStatus = reviewStatus;
+                param.applicationTime = applicationTime;
+            },
+            columns: [
+                [{
+                    field: 'id',
+                    title: '序号',
+                    sortable: true,
+                    width: 50
+                }, {
+                    field: 'roleName',
+                    title: '圈子名称',
+                    width: 50
+                }, {
+                    field: 'circleName',
+                    title: '圈子人数',
+                    width: 50
+                }, {
+                    field: 'publicContent',
+                    title: '圈子公告',
+                    width: 50
+                }, {
+                    field: 'circleLabels',
+                    title: '圈子标签',
+                    width: 50
+                }, {
+                    field: 'applicationTime',
+                    title: '申请时间',
+                    width: 50
+                }, {
+                    field: 'applicationTimeName',
+                    title: '申请账号',
+                    width: 50
+                }, {
+                    field: 'reviewStatus',
+                    title: '审核状态',
+                    width: 50
+                }, {
+                    field: 'custom_col1',
+                    title: '操作',
+                    width: 50,
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var btns = new Array();
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">查看</a>&nbsp;');
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">通过</a>&nbsp;');
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">不通过</a>&nbsp;');
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="">取消关联</a>');
+                        return btns.join('');
+                    }
+                }]
+            ]
+        });
+    })(jQuery, window, document);
+
+
+    function refreshCompanyCircle() {
+        $('#companyCircleTab').datagrid('reload');
+    }
+
+    /**
+     * 添加公司角色
+     *
+     */
+    function addCompanyCircle() {
+        $('#companyCircleWin').window({
+            width: "80%",
+            height: "80%",
+            modal:true
+        });
+    }
+
+</script>
+</body>
+</html>

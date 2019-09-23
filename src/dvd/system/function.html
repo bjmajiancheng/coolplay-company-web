@@ -8,12 +8,12 @@
 
 <body>
 <div class="super-theme-example">
-    <div class="form-item col-md-4">
+    <div class="search-form-item col-md-4">
         <label class="label-top">菜单名称：</label>
         <input name="functionName" class="easyui-validatebox easyui-textbox" prompt="请输入菜单名称">
     </div>
 
-    <div class="form-item col-md-3">
+    <div class="search-form-item col-md-3">
         <a href="javascript:void(0)" onclick="refreshCompanyFunction()" class="easyui-linkbutton primary">查询</a>
         <a href="javascript:void(0)" onclick="addCompanyFunction()" class="easyui-linkbutton primary">新增菜单</a>
     </div>
@@ -27,11 +27,11 @@
 
     <div id="companyFunctionWin" style="display: none;padding-top:30px;" title="新增菜单">
         <div class="form-item col-md-12">
-            <label class="label-top col-md-1" style="margin-left:27px;">父菜单：</label>
+            <label class="label-top col-md-1">父菜单：</label>
 
-            <input drole="main" role="tree_functionTree_input" data-type="tree-input" type="text" name="parentId" value="" class="hide"/>
-            <ul id="tree_functionTree" class="ztree col-md-8"></ul>
-        </ul>
+            <input role="main" role="tree_functionTree_input" data-type="tree-input" type="text" name="parentId" value="" class="hide"/>
+            <ul id="tree_functionTree" class="ztree" style="float: left;"></ul>
+        </div>
 
         <div class="form-item col-md-12">
             <label class="label-top">菜单名称：</label>
