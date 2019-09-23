@@ -21,7 +21,7 @@
 
 <div class="clear"></div>
 <div class="super-theme-example">
-    <div style="height: 340px;">
+    <div style="height: 400px;">
         <table id="companyRoleTab"></table>
     </div>
 
@@ -35,7 +35,7 @@
                 <div class="form-item col-md-10">
                     <label class="label-top" style="float:left;">绑定权限：</label>
 
-                    <input drole="main" role="tree_roleTree_input" data-type="tree-input" type="text" name="functionIds" value="" class="hide"/>
+                    <input role="tree_roleTree_input" data-type="tree-input" type="text" name="functionIds" value="" class="hide"/>
                     <ul id="tree_roleTree" class="ztree col-md-8"></ul>
                 </div>
                 <div class="form-item col-md-10">
@@ -48,14 +48,6 @@
 
 <script type="text/javascript">
     ;(function ($, window, document, undefined){
-        $.fn.zTree.init($("#tree_roleTree"), App.treeSetting({
-            url: App.href + "/api/common/companyFunction/treeNodes",
-            expandAll: true,
-            autoParam: ["id", "name", "pId"],
-            chkboxType: {"Y": "ps", "N": "ps"},
-            chkStyle: "checkbox"
-        }));
-
         $('#companyRoleTab').datagrid({
             url: App.href + '/api/common/companyRole/list',
             fit: true,
@@ -64,7 +56,7 @@
             method: 'GET',
             pageSize: 10,
             pageList: [10, 25, 50, 100, 200],
-            height: 340,
+            height: 400,
             queryParams: {},
             toolbar: [],
             loadFilter: function(data) {
@@ -130,6 +122,19 @@
 
     })(jQuery, window, document);
 
+    /**
+     * 初始化角色树
+     */
+    function initRoleTree() {
+        $.fn.zTree.init($("#tree_roleTree"), App.treeSetting({
+            url: App.href + "/api/common/companyFunction/treeNodes",
+            expandAll: true,
+            autoParam: ["id", "name", "pId"],
+            chkboxType: {"Y": "ps", "N": "ps"},
+            chkStyle: "checkbox"
+        }));
+    }
+
 
     function refreshCompanyRole() {
         $('#companyRoleTab').datagrid('reload');
@@ -148,6 +153,9 @@
         $('#companyRoleForm').form({'url': App.href + '/api/common/companyRole/saveCompanyRole'});
         $('#companyRoleWin').window({title: '新增角色'});
         $("#companyRole_roleName").textbox('setValue', '');
+        $('#companyRoleForm').find('input[name=functionIds]').attr('value', '');
+        $("#companyRoleForm").find("input[name=id]").val('');
+        initRoleTree();
     }
 
     /**
@@ -183,11 +191,15 @@
         });
 
         App.getRequestData('/api/common/companyRole/getCompanyRole', {'id': id}, function(data){
-            $("#companyRoleForm").find("input[name=id]").val(data.id);
             $('#companyRoleForm').form({'url': App.href + '/api/common/companyRole/updateCompanyRole'});
             $('#companyRoleWin').window({title: '更新角色'});
 
+            $("#companyRoleForm").find("input[name=id]").val(data.id);
             $("#companyRole_roleName").textbox('setValue', data.roleName);
+            if(data.functionIds && data.functionIds.length > 0) {
+                $('#companyRoleForm').find('input[name=functionIds]').attr('value', data.functionIds.join(','));
+            }
+            initRoleTree();
         });
     }
 
@@ -197,10 +209,12 @@
      */
     function delRole(id) {
         $.messager.confirm('提示', '确定删除角色？', function(r) {
-            App.getRequestData('/api/common/companyRole/delCompanyRole', {id: id, status: 0}, function(data){
-                App.showMsg('删除成功');
-                refreshCompanyRole();
-            });
+            if(r) {
+                App.getRequestData('/api/common/companyRole/delCompanyRole', {id: id, status: 0}, function(data){
+                    App.showMsg('删除成功');
+                    refreshCompanyRole();
+                });
+            }
         });
     }
 
