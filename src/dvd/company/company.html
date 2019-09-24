@@ -39,19 +39,24 @@
             <input id="companyDetail_companyDesc" name="companyDesc" class="easyui-validatebox easyui-textbox" prompt="请输入公司简介" data-options="required:true, missingMessage:'请输入公司简介'">
         </div>
 
-        <div class="form-item col-md-5">
-            <label class="label-top">营业执照附件：</label>
-            <input name="businessLicenseUrl" class="easyui-validatebox easyui-textbox" prompt="请输入营业执照附件">
-        </div>
-
-        <div class="form-item col-md-5">
+        <div class="form-item col-md-10">
             <label class="label-top">法人身份证号码：</label>
             <input id="companyDetail_legalIdcard" name="legalIdcard" class="easyui-validatebox easyui-textbox" prompt="请输入法人身份证号码" data-options="required:true, missingMessage:'请输入法人身份证号码'">
         </div>
 
         <div class="form-item col-md-5">
-            <label class="label-top">身份证正反面图片：</label>
-            <input name="idcardPositivePhoto" class="easyui-validatebox easyui-textbox" prompt="请输入身份证正反面图片">
+            <label class="label-top" style="float:left;">营业执照附件：</label>
+            <div id="businessLicenseUrlDiv" style="float:left;">
+            </div>
+        </div>
+
+        <div class="form-item col-md-10">
+            <label class="label-top" style="float:left;">身份证正反面照片：</label>
+            <div id="idcardPositivePhotoDiv" style="float:left;">
+            </div>
+
+            <div id="idcardNegativePhotoDiv" style="float:left;margin-left:10px;">
+            </div>
         </div>
 
         <div class="clear"></div>
@@ -73,6 +78,14 @@
             $("#companyDetail_majorProject").textbox('setValue', data.majorProject);
             $("#companyDetail_companyDesc").textbox('setValue', data.companyDesc);
             $("#companyDetail_legalIdcard").textbox('setValue', data.legalIdcard);
+
+            $("#businessLicenseUrl").attr('value', data.businessLicenseUrl);
+            $("#idcardPositivePhoto").attr('value', data.idcardPositivePhoto);
+            $("#idcardNegativePhoto").attr('value', data.idcardNegativePhoto);
+
+            App.showImage("businessLicenseUrlDiv", data.businessLicenseUrl);
+            App.showImage("idcardPositivePhotoDiv", data.idcardPositivePhoto);
+            App.showImage("idcardNegativePhotoDiv", data.idcardNegativePhoto);
         });
 
         $('#companyDetailForm').form({
@@ -91,11 +104,41 @@
             }
         });
 
+
+        var positiveEle = App.uploadImage({id: "idcardPositivePhoto", name: 'idcardPositivePhoto', isAjaxUpload: true, autoUpload: true});
+        $('#idcardPositivePhotoDiv').append(positiveEle);
+
+        var negativeEle = App.uploadImage({id: "idcardNegativePhoto", name: 'idcardNegativePhoto', isAjaxUpload: true, autoUpload: true});
+        $('#idcardNegativePhotoDiv').append(negativeEle);
+
+        var businessLicenseUrlEle = App.uploadImage({id:"businessLicenseUrl", name: 'businessLicenseUrl', isAjaxUpload: true, autoUpload: true});
+        $('#businessLicenseUrlDiv').append(businessLicenseUrlEle);
+
     })(jQuery, window, document);
 
     function updateCompany() {
+        var idcardPositivePhoto = $("#companyDetailForm").find("input[name=idcardPositivePhoto]").val();
+        var idcardNegativePhoto = $("#companyDetailForm").find("input[name=idcardNegativePhoto]").val();
+        var businessLicenseUrl = $("#companyDetailForm").find("input[name=businessLicenseUrl]").val();
+
+        if(idcardPositivePhoto == undefined || idcardPositivePhoto == '') {
+            App.showMsg('请上传身份证正面图片');
+            return false;
+        }
+
+        if(idcardNegativePhoto == undefined || idcardNegativePhoto == '') {
+            App.showMsg('请上传身份证反面图片');
+            return false;
+        }
+
+        if(businessLicenseUrl == undefined || businessLicenseUrl == '') {
+            App.showMsg('请上传营业执照附件图片');
+            return false;
+        }
+
         $("#companyDetailForm").submit();
     }
+
 </script>
 </body>
 </html>

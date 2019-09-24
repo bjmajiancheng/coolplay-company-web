@@ -338,4 +338,166 @@
         return setting;
     }
 
+    /**
+     * 上传文件
+     *
+     * @param data
+     */
+    App.uploadImage = function(data) {
+        var imageTmpl = '<div><div class="fileinput fileinput-new" data-provides="fileinput">'
+            + '<div class="fileinput-preview thumbnail" role="preview" data-trigger="fileinput" style="width: 200px; height: 150px; line-height: 150px;"></div>'
+            + '<div role="imageDiv">'
+            + '<span class="btn btn-default btn-file">'
+            + '<span class="fileinput-new">选择图片 </span>'
+            + '<span class="fileinput-exists">更改</span>'
+            + '<input drole="main" type="text" role="image-input" id="${id_}" name="${name_}" style="display:none;"><input role="file" type="file" id="image_${id_}" name="file"/>'
+            + '</span>'
+            + '<a href="javascript:;" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">删除</a>'
+            + '</div></div></div>';
+        var ele = $.tmpl(imageTmpl, {
+            "id_": (data.id === undefined ? data.name : data.id),
+            "name_": data.name
+        });
+        if (data.uploadUrl === undefined) {
+            data.uploadUrl = App.href + "/api/common/uploadImage";
+        }
+        if (data.isAjaxUpload) {
+            // 上传符号
+            var successIcon = $('<a href="javascript:;" class="btn" style="border-color: white;background:white;cursor:default;"><span class="glyphicon glyphicon-ok" style="color: #45B6AF;cursor:default;"></span></a>');
+            successIcon.hide();
+            ele.find("[role='imageDiv']").append(successIcon);
+            // 删除事件
+            /*ele.find('[data-dismiss="fileinput"]').click(function () {
+                form._refreshItem(data.name);
+            });*/
+            // 上传
+            var uploadFile = function () {
+                if (ele.find("[role='file']").val() == "") {
+                    return;
+                } else {
+                    var file = ele.find("[role='file']").val();
+                    var type = file.substring(file.lastIndexOf("."));
+                    if (!(type.toLowerCase() == ".jpg"
+                        || type.toLowerCase() == ".png"
+                        || type.toLowerCase() == ".bmp" || type
+                            .toLowerCase() == ".jpeg")) {
+                        alert("必须是.jpp,.png,.bmp,.jpeg格式中的一种");
+                        return;
+                    }
+                }
+
+                $.ajaxFileUpload({
+                        url: data.uploadUrl,
+                        type: "POST",
+                        fileElementId: "image_" + data.id,
+                        dataType: "json",
+                        success: function (json, status) {
+                            if (json.code === 200) {
+                                json = json.data;
+                            } else {
+                                alert(json.message);
+                                return;
+                            }
+                            if (ele.find("[role='preview']").length > 0) {
+                                var preview = ele
+                                    .find("[role='preview']");
+                                if (preview.css('height') != 'none') {
+                                    var $img = $('<img>');
+                                    $img[0].src = json.attachmentUrl;
+                                    $img
+                                        .css(
+                                            'max-height',
+                                            parseInt(
+                                                preview.css('height'),
+                                                10)
+                                            - parseInt(
+                                            preview
+                                                .css('padding-top'),
+                                            10)
+                                            - parseInt(
+                                            preview
+                                                .css('padding-bottom'),
+                                            10)
+                                            - parseInt(
+                                            preview
+                                                .css('border-top'),
+                                            10)
+                                            - parseInt(
+                                            preview
+                                                .css('border-bottom'),
+                                            10))
+                                    preview.html($img);
+                                }
+
+                            }
+                            if (data.onSuccess !== undefined) {
+                                data.onSuccess(json);
+                            } else {
+                                if (json.attachmentUrl !== undefined) {
+                                    ele
+                                        .find(
+                                            "[role='image-input']")
+                                        .attr("value",
+                                            json.attachmentUrl);
+                                } else {
+                                    console
+                                        .error("返回的json数据中为检测到fileUrl值");
+                                }
+                            }
+                            successIcon.show();
+                        },
+                        error: function (data, status, e) {
+                            alert(e);
+                        }
+                    });
+            };
+            if (data.autoUpload) {
+                ele.find('[role="file"]').on("change", function () {
+                    uploadFile();
+                });
+            } else {
+                var upload = $('<a href="javascript:;" role="upload" data-dismiss="fileinput" class="btn btn-primary fileinput-exists">上传 </a>');
+                ele.find("[role='imageDiv']").append(upload);
+                upload.on("click", function () {
+                    uploadFile();
+                });
+            }
+        }
+        return ele;
+    }
+
+    /**
+     * 展示图片信息
+     *
+     * @param ele
+     * @param data
+     */
+    App.showImage = function(ele, attachmentUrl) {
+        var preview = $("#"+ele).find("[role='preview']");
+        if (preview.css('height') != 'none') {
+            var $img = $('<img>');
+            $img[0].src = attachmentUrl;
+            $img.css('max-height', parseInt(
+                preview.css('height'),
+                10)
+                - parseInt(
+                    preview
+                        .css('padding-top'),
+                    10)
+                - parseInt(
+                    preview
+                        .css('padding-bottom'),
+                    10)
+                - parseInt(
+                    preview
+                        .css('border-top'),
+                    10)
+                - parseInt(
+                    preview
+                        .css('border-bottom'),
+                    10))
+            preview.html($img);
+        }
+    }
+
 })(jQuery, window, document);
