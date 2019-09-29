@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>菜单管理</title>
+    <style type="text/css">
 </head>
 
 <body>
@@ -70,6 +71,42 @@
                 <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="canalCompanyFunction()">取消</a>
             </div>
         </form>
+    </div>
+
+    <div id="companyFunctionDetailWin" style="display: none;padding-top:30px;" title="菜单详情">
+        <div class="form-item col-md-12">
+            <label class="label-top col-md-1">父菜单：</label>
+            <label class="label-top parentFunctionNameLabel"></label>
+        </div>
+
+        <div class="form-item col-md-12">
+            <label class="label-top">菜单名称：</label>
+            <label class="label-top companyFunctionForm_functionNameLabel"></label>
+        </div>
+
+        <div class="form-item col-md-12">
+            <label class="label-top">菜单路径：</label>
+            <label class="label-top companyFunctionForm_actionLabel"></label>
+        </div>
+
+        <div class="form-item col-md-12">
+            <label class="label-top">是否显示：</label>
+            <label class="label-top displayLabel"></label>
+        </div>
+
+        <div class="form-item col-md-12">
+            <label class="label-top">排序号：</label>
+            <label class="label-top companyFunctionForm_sortLabel"></label>
+        </div>
+
+        <div class="form-item col-md-12">
+            <label class="label-top">菜单图标：</label>
+            <label class="label-top companyFunctionForm_iconLabel"></label>
+        </div>
+
+        <div class="form-item col-md-12">
+            <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="closeCompanyFunctionDetail()">关闭</a>
+        </div>
     </div>
 </div>
 
@@ -138,7 +175,7 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var btns = new Array();
-                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="updateCompanyFunction('+ row.id +')">查看</a>&nbsp;');
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="showCompanyFunction('+ row.id +')">查看</a>&nbsp;');
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="updateCompanyFunction('+ row.id +')">修改</a>');
                         return btns.join('');
                     }
@@ -247,6 +284,41 @@
             }
             initFunctionTree();
         });
+    }
+
+    /**
+     * 展示公司菜单详情信息
+     *
+     * @param id
+     */
+    function showCompanyFunction(id) {
+        $('#companyFunctionDetailWin').window({
+            width: "80%",
+            height: "80%",
+            modal:true
+        });
+
+        App.getRequestData('/api/common/companyFunction/getCompanyFunction', {'id': id}, function(data){
+            var displayStr = "隐藏";
+            if(data.display == 1) {
+                displayStr = "显示";
+            }
+
+            $(".parentFunctionNameLabel").text(data.parentFunctionName);
+            $(".companyFunctionForm_functionNameLabel").text(data.functionName);
+            $(".companyFunctionForm_actionLabel").text(data.action);
+            $(".displayLabel").text(displayStr);
+            $(".companyFunctionForm_sortLabel").text(data.sort);
+            $(".companyFunctionForm_iconLabel").text(data.icon);
+        });
+
+    }
+
+    /**
+     * 关闭公司菜单详情
+     */
+    function closeCompanyFunctionDetail() {
+        $("#companyFunctionDetailWin").window('close');
     }
 
 </script>
