@@ -110,8 +110,33 @@
             </div>
 
             <div class="form-item col-md-12">
-                <label class="label-top">可飞风向：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入可飞风向" name="flyDirection" data-options="required:true, missingMessage:'请输入可飞风向'">
+                <label class="label-top" style="float:left;">可飞风向：</label>
+                <!--<input class="easyui-validatebox easyui-textbox" prompt="请输入可飞风向" name="flyDirection" data-options="required:true, missingMessage:'请输入可飞风向'">
+-->
+                <div style="margin-left:20px;float:left;">
+                    <input class="easyui-checkbox" name="flyDirection" value="东" label="东:" />
+                </div>
+                <div style="margin-left:20px;float:left;">
+                    <input class="easyui-checkbox" name="flyDirection" value="南" label="南:" />
+                </div>
+                <div style="margin-left:20px;float:left;">
+                    <input class="easyui-checkbox" name="flyDirection" value="西" label="西:" />
+                </div>
+                <div style="margin-left:20px;float:left;">
+                    <input class="easyui-checkbox" name="flyDirection" value="北" label="北:" />
+                </div>
+                <div style="margin-left:20px;float:left;">
+                    <input class="easyui-checkbox" name="flyDirection" value="东南" label="东南:" />
+                </div>
+                <div style="margin-left:20px;float:left;">
+                    <input class="easyui-checkbox" name="flyDirection" value="东北" label="东北:" />
+                </div>
+                <div style="margin-left:20px;float:left;">
+                    <input class="easyui-checkbox" name="flyDirection" value="西南" label="西南:" />
+                </div>
+                <div style="margin-left:20px;float:left;">
+                    <input class="easyui-checkbox" name="flyDirection" value="西北" label="西北:" />
+                </div>
             </div>
 
             <div class="form-item col-md-12">
@@ -464,7 +489,7 @@
             //百度地图功能 START---
             window.basePosDetailMap = new BMap.Map("basePosDetailMap");
 
-            if(data.dataX >= 0 && data.posY >= 0) {
+            if(data.posX > 0 && data.posY > 0) {
                 window.basePosDetailMap.centerAndZoom(new BMap.Point(data.posX, data.posY),8);
 
                 var point = new BMap.Point(data.posX, data.posY);
