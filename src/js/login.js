@@ -74,5 +74,9 @@
     };
     $(document).ready(function () {
         initLogin();
+
+        $("#register_btn").on('click', function() {
+            window.location.href = App.href + "/register.html";
+        });
     });
 })(jQuery, window, document);
