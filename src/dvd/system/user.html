@@ -35,7 +35,11 @@
             <input name="id" type="hidden" />
             <div class="form-item col-md-10">
                 <label class="label-top">账户：</label>
-                <input id="user_userName" name="userName" class="easyui-validatebox easyui-textbox" prompt="请输入账户" data-options="required:true, missingMessage:'请输入账号'">
+                <input id="user_userName" name="userName" class="easyui-validatebox easyui-textbox" prompt="请输入账户" data-options="required:true, missingMessage:'请输入账号'" disabled="disabled">
+            </div>
+            <div class="form-item col-md-10">
+                <label class="label-top">显示名称：</label>
+                <input id="user_displayName" name="displayName" class="easyui-validatebox easyui-textbox" prompt="请输入显示名称" data-options="required:true, missingMessage:'请输入显示名称'">
             </div>
             <div class="form-item col-md-10">
                 <label class="label-top">角色：</label>
@@ -67,6 +71,10 @@
         <div class="form-item col-md-10">
             <label class="label-top">账户：</label>
             <label class="label-top userNameLabel"></label>
+        </div>
+        <div class="form-item col-md-10">
+            <label class="label-top">显示名称：</label>
+            <label class="label-top displayNameLabel"></label>
         </div>
         <div class="form-item col-md-10">
             <label class="label-top">角色：</label>
@@ -286,6 +294,7 @@
 
         $("#companyUserForm").find("input[name=id]").val('');
         $("#user_userName").textbox('setValue', '');
+        $("#user_displayName").textbox('setValue', '');
         $("#userRoleId").combobox('setValue', '0');
         $("#userDeptId").combobox('setValue', '0');
         $("#user_contactPhone").textbox('setValue', '');
@@ -307,6 +316,7 @@
 
         App.getRequestData('/api/common/companyUser/getUser', {'userId': userId}, function(data) {
             $(".userNameLabel").text(data.userName);
+            $(".displayNameLabel").text(data.displayName);
             $(".userRoleLabel").text(data.roleName);
             $(".userDeptLabel").text(data.deptName);
             $(".user_contactPhoneLabele").text(data.contactPhone);
@@ -343,6 +353,7 @@
             $('#companyUserForm').form({'url': App.href + '/api/common/companyUser/updateUser'});
 
             $("#user_userName").textbox('setValue', data.userName);
+            $("#user_displayName").textbox('setValue', data.displayName);
             $("#userRoleId").combobox('setValue', data.roleId);
             $("#userDeptId").combobox('setValue', data.deptId);
             $("#user_contactPhone").textbox('setValue', data.contactPhone);
