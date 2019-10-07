@@ -51,7 +51,7 @@
             </div>
             <div class="form-item col-md-10">
                 <label class="label-top">联系电话：</label>
-                <input id="user_contactPhone" name="contactPhone" class="easyui-validatebox easyui-textbox" prompt="请输入联系电话" data-options="required:true, missingMessage:'请输入联系电话'">
+                <input id="user_contactPhone" name="contactPhone" class="easyui-validatebox easyui-textbox" prompt="请输入联系电话" data-options="required:true, missingMessage:'请输入联系电话', validType:'telephone'">
             </div>
             <div class="form-item col-md-10">
                 <label class="label-top">账号状态：</label>
@@ -292,6 +292,8 @@
         });
         $('#companyUserWin').window({title: '添加用户'});
 
+        $("#user_userName").textbox({disabled:false});
+
         $("#companyUserForm").find("input[name=id]").val('');
         $("#user_userName").textbox('setValue', '');
         $("#user_displayName").textbox('setValue', '');
@@ -347,6 +349,7 @@
             modal:true
         });
         $('#companyUserWin').window({title: '用户修改'});
+        $("#user_userName").textbox({disabled:true});
 
         App.getRequestData('/api/common/companyUser/getUser', {'userId': userId}, function(data) {
             $("#companyUserForm").find("input[name=id]").val(data.id);
