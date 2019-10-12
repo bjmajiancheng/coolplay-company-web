@@ -43,7 +43,7 @@
             </div>
             <div class="form-item col-md-10">
                 <label class="label-top">角色：</label>
-                <input id="userRoleId" name="roleId" class="easyui-combobox">
+                <input id="userRoleId" name="roleIds" class="easyui-combobox">
             </div>
             <div class="form-item col-md-10">
                 <label class="label-top">所属部门：</label>
@@ -217,6 +217,7 @@
                 textField: 'roleName',
                 editable: false,
                 required: true,
+                multiple: true,
                 mode: 'local',
                 value: '0',
                 data: data.rows
@@ -360,7 +361,7 @@
 
             $("#user_userName").textbox('setValue', data.userName);
             $("#user_displayName").textbox('setValue', data.displayName);
-            $("#userRoleId").combobox('setValue', data.roleId);
+            $("#userRoleId").combobox('setValue', data.roleIds);
             $("#userDeptId").combobox('setValue', data.deptId);
             $("#user_contactPhone").textbox('setValue', data.contactPhone);
             $("#user_enabled").combobox('setValue', data.enabled);
