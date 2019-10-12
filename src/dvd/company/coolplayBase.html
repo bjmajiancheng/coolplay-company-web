@@ -390,7 +390,11 @@
                         var btns = new Array();
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="showCoolplayBase('+ row.id +')">详情</a>&nbsp;');
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="delCoolplayBase('+ row.id +')">删除</a>&nbsp;');
-                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="closeCoolplayBase('+ row.id +')">关闭</a>');
+                        if(row.isClose == 1) {
+                            btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="closeCoolplayBase('+ row.id +', 0)">开放</a>');
+                        } else if(row.isClose == 0) {
+                            btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="closeCoolplayBase('+ row.id +', 1)">关闭</a>');
+                        }
                         return btns.join('');
                     }
                 }]
@@ -596,9 +600,13 @@
      *
      * @param id
      */
-    function closeCoolplayBase(id) {
-        App.getRequestData('/api/company/coolplayBase/closeCoolplayBase', {id: id, isClose: 1}, function(data){
-            App.showMsg('关闭公司基地成功!');
+    function closeCoolplayBase(id, isClose) {
+        var isCloseStr = "开放";
+        if(isClose == 0) {
+            isCloseStr = "关闭";
+        }
+        App.getRequestData('/api/company/coolplayBase/closeCoolplayBase', {id: id, isClose: isClose}, function(data){
+            App.showMsg(isCloseStr + '公司基地成功!');
             $('#coolplayBaseTab').datagrid('reload');
         });
     }
