@@ -43,3 +43,7 @@
 .align_right {
     text-align: center
 }
+
+.l-btn {
+    margin-right: 15px;
+}
