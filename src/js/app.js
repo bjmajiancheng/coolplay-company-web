@@ -395,69 +395,69 @@
                 }
 
                 $.ajaxFileUpload({
-                        url: data.uploadUrl,
-                        type: "POST",
-                        fileElementId: "image_" + data.id,
-                        dataType: "json",
-                        success: function (json, status) {
-                            if (json.code === 200) {
-                                json = json.data;
-                            } else {
-                                alert(json.message);
-                                return;
-                            }
-                            if (ele.find("[role='preview']").length > 0) {
-                                var preview = ele
-                                    .find("[role='preview']");
-                                if (preview.css('height') != 'none') {
-                                    var $img = $('<img>');
-                                    $img[0].src = json.attachmentUrl;
-                                    $img
-                                        .css(
-                                            'max-height',
-                                            parseInt(
-                                                preview.css('height'),
-                                                10)
-                                            - parseInt(
-                                            preview
-                                                .css('padding-top'),
-                                            10)
-                                            - parseInt(
-                                            preview
-                                                .css('padding-bottom'),
-                                            10)
-                                            - parseInt(
-                                            preview
-                                                .css('border-top'),
-                                            10)
-                                            - parseInt(
-                                            preview
-                                                .css('border-bottom'),
-                                            10))
-                                    preview.html($img);
-                                }
-
-                            }
-                            if (data.onSuccess !== undefined) {
-                                data.onSuccess(json);
-                            } else {
-                                if (json.attachmentUrl !== undefined) {
-                                    ele
-                                        .find(
-                                            "[role='image-input']")
-                                        .attr("value",
-                                            json.attachmentUrl);
-                                } else {
-                                    console
-                                        .error("返回的json数据中为检测到fileUrl值");
-                                }
-                            }
-                            successIcon.show();
-                        },
-                        error: function (data, status, e) {
-                            alert(e);
+                    url: data.uploadUrl,
+                    type: "POST",
+                    fileElementId: "image_" + data.id,
+                    dataType: "json",
+                    success: function (json, status) {
+                        if (json.code === 200) {
+                            json = json.data;
+                        } else {
+                            alert(json.message);
+                            return;
                         }
-                    });
+                        if (ele.find("[role='preview']").length > 0) {
+                            var preview = ele
+                                .find("[role='preview']");
+                            if (preview.css('height') != 'none') {
+                                var $img = $('<img>');
+                                $img[0].src = json.attachmentUrl;
+                                $img
+                                    .css(
+                                        'max-height',
+                                        parseInt(
+                                            preview.css('height'),
+                                            10)
+                                        - parseInt(
+                                        preview
+                                            .css('padding-top'),
+                                        10)
+                                        - parseInt(
+                                        preview
+                                            .css('padding-bottom'),
+                                        10)
+                                        - parseInt(
+                                        preview
+                                            .css('border-top'),
+                                        10)
+                                        - parseInt(
+                                        preview
+                                            .css('border-bottom'),
+                                        10))
+                                preview.html($img);
+                            }
+
+                        }
+                        if (data.onSuccess !== undefined) {
+                            data.onSuccess(json);
+                        } else {
+                            if (json.attachmentUrl !== undefined) {
+                                ele
+                                    .find(
+                                        "[role='image-input']")
+                                    .attr("value",
+                                        json.attachmentUrl);
+                            } else {
+                                console
+                                    .error("返回的json数据中为检测到fileUrl值");
+                            }
+                        }
+                        successIcon.show();
+                    },
+                    error: function (data, status, e) {
+                        alert(e);
+                    }
+                });
             };
             if (data.autoUpload) {
                 ele.find('[role="file"]').on("change", function () {
