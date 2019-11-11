@@ -41,6 +41,8 @@
                 <span>所属行业</span>
                 <dl class="fuXuan">
                 </dl>
+
+                <input type="hidden" name="industryIds" />
             </li>
             <li>
                 <span>公司简介</span>
@@ -57,9 +59,8 @@
 
                 </div>
                 <div style="width: 100%;height: 1px;clear: both;"></div>
-                <!--<select name="majorProject">
-                    <option value="">请选择</option>
-                </select>-->
+
+                <input type="hidden" name="majorProject" />
             </li>
             <li>
                 <span>营业执照附件</span>
@@ -74,6 +75,8 @@
                     <input type="file" id="fileOne" name="file" style="display: none;" />
                 </div>
                 <div style="width: 100%;height: 1px;clear: both;"></div>
+
+                <input type="hidden" name="businessLicenseUrl" />
             </li>
             <li>
                 <span>法人姓名</span>
@@ -96,6 +99,9 @@
                 </div>
                 <input type="file" id="fileTwe" name="file" style="display: none;" />
                 <div style="width: 100%;height: 1px;clear: both;"></div>
+
+                <input type="hidden" name="idcardPositivePhoto" />
+                <input type="hidden" name="idcardNegativePhoto" />
             </li>
             <li>
                 <span>联系人</span>
@@ -110,7 +116,7 @@
                 <input type="text" name="companyEmail" />
             </li>
             <li class="btn">
-                <input type="button" onclick="register()" value="注册"/>
+                <input type="button" onclick="register()" value="注册" id="submit-btn"/>
             </li>
         </ul>
     </form>
@@ -131,6 +137,7 @@
 <script src="cdn/vendors/jquery-easyui-1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="cdn/vendors/jquery-ui/jquery-ui.min.js"></script>
 <script src="cdn/vendors/jquery.validate.min.js"></script>
+<script src="cdn/vendors/jquery.form.min.js"></script>
 <script src="cdn/vendors/localization/messages_zh.js"></script>
 
 <script src="cdn/vendors/bootstrap/js/bootstrap.js"></script>
@@ -185,7 +192,6 @@
         $('#fileOne').change(function(){   // 营业执照附件监听
             uploadImage("fileOne", function(data){
                 arrOneUrlArr.push(data.attachmentUrl);
-                console.log(data.attachmentUrl);
 
                 $('#imageListOne').prepend('<dd><img src = "'+data.attachmentUrl+'"/><b imgname="'+data.attachmentUrl+'" imgurl="'+ data.attachmentUrl +'" onclick="deleteImage(this,1)">x</b></dd>');
                 $("#fileOne").replaceWith('<input type="file" id="fileOne" name="file" style="display: none;" />');
@@ -201,7 +207,6 @@
             /** 身份证正反面附件上传 */
             uploadImage("fileTwe", function(data){
                 arrTweUrlArr.push(data.attachmentUrl);
-                console.log(data.attachmentUrl);
 
                 $('#imageListTwe').prepend('<dd><img src = "'+data.attachmentUrl+'"/><b imgname = "'+data.attachmentUrl+'" imgurl="'+ data.attachmentUrl +'" onclick="deleteImage(this,2)">x</b>>x</b></dd>');
                 $("#fileTwe").replaceWith('<input type="file" id="fileTwe" name="file" style="display: none;" />');
@@ -336,23 +341,43 @@
             });
         });
 
+        /*$('#registerForm').form({
+            url: App.href + '/api/token/register',
+            method: 'POST',
+            onSubmit:function(){
+                return $(this).form('validate');
+            },
+            success:function(data){
+                var obj = JSON.parse(data);
+                if (obj.code == 200) {
+                    App.showMsg('注册成功，平台审核通过后短信通知您登录方式...');
+
+                    $("#submit-btn").attr('disabled', true);
+                    $("#submit-btn").css('background-color', '#778899');
+                } else {
+                    App.showMsg(obj.message);
+                }
+            }
+        });*/
+
         //验证表单信息
         $("#registerForm").validate({
             errorElement: 'p',
             errorClass: 'falseP',
             submitHandler: function(form) {
-                $('#registerForm').form({
+
+                $(form).ajaxSubmit({
+                    dataType: "json",
                     url: App.href + '/api/token/register',
                     method: 'POST',
-                    onSubmit:function(){
-                        return $(this).form('validate');
-                    },
-                    success:function(data){
-                        var obj = JSON.parse(data);
-                        if (obj.code == 200) {
+                    success: function(data) {
+                        if (data.code == 200) {
                             App.showMsg('注册成功，平台审核通过后短信通知您登录方式...');
+
+                            $("#submit-btn").attr('disabled', true);
+                            $("#submit-btn").css('background-color', '#778899');
                         } else {
-                            App.showMsg(obj.message);
+                            App.showMsg(data.message);
                         }
                     }
                 });
@@ -433,6 +458,8 @@
             alert("请选择所属行业...");
 
             return false;
+        } else {
+            $("input[name=industryIds]").val(industryList.join(','));
         }
 
         var majorProjectList = getzdy();
@@ -440,6 +467,8 @@
             alert("请选择主营项目...");
 
             return false;
+        } else {
+            $("input[name=majorProject]").val(majorProjectList.join(','));
         }
 
         if(arrOneUrlArr.length == 0) {
@@ -447,7 +476,7 @@
 
             return false;
         } else {
-            console.log(arrOneUrlArr);
+            $("input[name=businessLicenseUrl]").val(arrOneUrlArr.join(','));
         }
 
         if(arrTweUrlArr.length == 0) {
@@ -455,7 +484,10 @@
 
             return false;
         } else {
-            console.log(arrTweUrlArr);
+            /*<input type="hidden" name="idcardPositivePhoto" />
+            <input type="hidden" name="idcardNegativePhoto" />*/
+            $("input[name=idcardPositivePhoto]").val(arrTweUrlArr[0]);
+            $("input[name=idcardNegativePhoto]").val(arrTweUrlArr[1]);
         }
 
 
