@@ -257,7 +257,7 @@
 
         $.messager.show({
             height: 42,
-            timeout: 1500,
+            timeout: 3000,
             showSpeed: 200,
             msg: '<i class="fa fa-info-circle"></i>&nbsp; ' + alertText,
             style: {

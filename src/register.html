@@ -30,7 +30,7 @@
     <form id="registerForm" method="post">
         <ul>
             <li>
-                <span>显示名称/隐藏名称</span>
+                <span>公司全称</span>
                 <input type="text" name="companyFullName" />
             </li>
             <li>
@@ -114,6 +114,14 @@
             <li>
                 <span>邮 箱</span>
                 <input type="text" name="companyEmail" />
+            </li>
+            <li>
+                <span>后台账号</span>
+                <input type="text" name="adminUserName" />
+            </li>
+            <li>
+                <span>后台密码</span>
+                <input type="text" name="adminPassword" />
             </li>
             <li class="btn">
                 <input type="button" onclick="register()" value="注册" id="submit-btn"/>
@@ -372,7 +380,8 @@
                     method: 'POST',
                     success: function(data) {
                         if (data.code == 200) {
-                            App.showMsg('注册成功，平台审核通过后短信通知您登录方式...');
+                            alert('注册成功，平台审核通过后短信通知您登录方式...');
+                            //App.showMsg('注册成功，平台审核通过后短信通知您登录方式...');
 
                             $("#submit-btn").attr('disabled', true);
                             $("#submit-btn").css('background-color', '#778899');
@@ -412,6 +421,12 @@
                 companyEmail :{
                     required: true,
                     email:true
+                },
+                adminUserName :{
+                    required: true
+                },
+                adminPassword :{
+                    required: true
                 }
             },
             messages:{
@@ -442,6 +457,12 @@
                 companyEmail :{
                     required: '请输入您的邮箱',
                     email:'邮箱格式不正确'
+                },
+                adminUserName :{
+                    required: '请输入您的后台账号'
+                },
+                adminPassword :{
+                    required: '请输入您的后台密码'
                 }
             },
             onsubmit:true
