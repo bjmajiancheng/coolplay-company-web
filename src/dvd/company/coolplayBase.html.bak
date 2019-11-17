@@ -47,6 +47,14 @@
 </head>
 
 <body>
+<div id="basePosMap" class="map" tabindex="0" style="width:80%;height:300px;"></div>
+<!--<div id="basePosMap" class="map" tabindex="0" style="width:80%;height:300px; float:left;"></div>-->
+
+<div id="pickerBox">
+    <input id="pickerInput" placeholder="输入关键字选取地点" />
+    <div id="poiInfo"></div>
+</div>
+
 
 <div class="super-theme-example">
     <div class="search-form-item col-md-4">
@@ -114,11 +122,18 @@
                 <!--<div id="r-result"><input type="text" id="suggestId" size="20" value="百度" style="width:150px; position:relative; z-index:9001;" /></div>
                 <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none; position:relative; z-index:9001;"></div>-->
 
-                <div id="basePosMap" class="map" tabindex="0" style="width: 80%; height: 100%; margin-left: 15px; font-size: 13px;"></div>
+                <div id="container" class="map" tabindex="0" style="width: 100%; height: 100%; margin: 0px; font-size: 13px;"></div>
                 <div id="pickerBox" style="position: absolute; z-index: 9999; top: 50px; right: 30px; width: 300px;">
                     <input id="pickerInput" style="width: 200px; padding: 5px 5px;" placeholder="输入关键字选取地点" />
                     <div id="poiInfo" style="background: #fff;"></div>
                 </div>
+
+                <!--<div id="basePosMap" style="width:80%;height:300px; float:left;"></div>
+
+                <div id="pickerBox">
+                    <input id="pickerInput" placeholder="输入关键字选取地点" />
+                    <div id="poiInfo"></div>
+                </div>-->
 
                 <input type="hidden" name="posX" />
                 <input type="hidden" name="posY" />

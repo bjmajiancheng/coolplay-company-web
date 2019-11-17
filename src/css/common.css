@@ -47,3 +47,11 @@
 .l-btn {
     margin-right: 15px;
 }
+
+.amap_lib_placeSearch .poibox.highlight {
+    background-color: #CAE1FF;
+}
+
+.amap_lib_placeSearch .poi-more {
+    display: none!important;
+}
