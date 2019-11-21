@@ -94,6 +94,7 @@
                     align: 'center',
                     formatter: function(value, row, index) {
                         var btns = new Array();
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="updateRole(' + row.id + ')">修改</a>&nbsp;');
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="updateRole(' + row.id + ')">绑定权限</a>&nbsp;');
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="delRole(' + row.id + ')">删除</a>');
                         return btns.join('');

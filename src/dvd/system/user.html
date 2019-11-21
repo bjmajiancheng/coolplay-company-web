@@ -137,7 +137,14 @@
                 }, {
                     field: 'userName',
                     title: '账号',
-                    width: 50
+                    width: 50,
+                    formatter: function(value, row, index) {
+                        if(row.isAdmin == 1) {
+                            return '<font color="red">'+row.userName + '*' + '</font>';
+                        } else {
+                            return row.userName;
+                        }
+                    }
                 }, {
                     field: 'contactPhone',
                     title: '手机号',
