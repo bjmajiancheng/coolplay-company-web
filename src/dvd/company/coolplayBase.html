@@ -111,11 +111,9 @@
 
             <div class="form-item col-md-12" style="height:320px;">
                 <label class="label-top" style="float:left;">地图标点：</label>
-                <!--<div id="r-result"><input type="text" id="suggestId" size="20" value="百度" style="width:150px; position:relative; z-index:9001;" /></div>
-                <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none; position:relative; z-index:9001;"></div>-->
 
                 <div id="basePosMap" class="map" tabindex="0" style="width: 80%; height: 100%; margin-left: 15px; font-size: 13px;"></div>
-                <div id="pickerBox" style="position: absolute; z-index: 9999; top: 50px; right: 30px; width: 300px;">
+                <div id="pickerBox" style="position: absolute; z-index: 9999999; top: 30px; left: 150px; width: 300px;">
                     <input id="pickerInput" style="width: 200px; padding: 5px 5px;" placeholder="输入关键字选取地点" />
                     <div id="poiInfo" style="background: #fff;"></div>
                 </div>
@@ -153,7 +151,28 @@
                 <label class="label-top" style="float:left;">可飞风向：</label>
                 <!--<input class="easyui-validatebox easyui-textbox" prompt="请输入可飞风向" name="flyDirection" data-options="required:true, missingMessage:'请输入可飞风向'">
 -->
-                <div style="margin-left:20px;float:left;">
+                <!--<div style="height:300px;">
+                    <span class="normal_left_arrow"></span>
+                    <span class="left_top_arrow"></span>
+                    <span class="normal_top_arrow"></span>
+                    <span class="right_top_arrow"></span>
+                    <span class="normal_right_arrow"></span>
+                    <span class="right_bottom_arrow"></span>
+                    <span class="normal_bottom_arrow"></span>
+                    <span class="left_bottom_arrow"></span>
+                </div>-->
+                <div class="wind_direction" style="margin-left:300px;">
+                    <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 3.3in; right: 1in; top: 1.45in;" data="西风">西风</div>
+                    <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 3.3in; right: 1in; top: 0.3in;" data="西北风">西北风</div>
+                    <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 4.7in; right: 1in; top: 0in;" data="北风">北风</div>
+                    <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 6.1in; right: 1in; top: 0.3in;" data="东北风">东北风</div>
+                    <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 6.1in; right: 1in; top: 1.45in;" data="东风">东风</div>
+                    <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 6.1in; right: 1in; top: 2.6in;" data="东南风">东南风</div>
+                    <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 4.7in; right: 1in; top: 2.9in;" data="南风">南风</div>
+                    <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 3.3in; right: 1in; top: 2.6in;" data="西南风">西南风</div>
+                </div>
+
+                <!--<div style="margin-left:20px;float:left;">
                     <input class="easyui-checkbox" name="flyDirection" value="东" label="东:" />
                 </div>
                 <div style="margin-left:20px;float:left;">
@@ -176,7 +195,9 @@
                 </div>
                 <div style="margin-left:20px;float:left;">
                     <input class="easyui-checkbox" name="flyDirection" value="西北" label="西北:" />
-                </div>
+                </div>-->
+
+                <input type="hidden" name="flyDirection"/>
             </div>
 
             <div class="form-item col-md-12">
@@ -197,7 +218,7 @@
                 </label>
             </div>
 
-            <div class="form-item col-md-12">
+            <!--<div class="form-item col-md-12">
                 <label class="label-top">开放时间：</label>
                 <input class="easyui-validatebox easyui-textbox" prompt="请输入开放时间" name="openTime" data-options="required:true, missingMessage:'请输入开放时间'">
             </div>
@@ -205,7 +226,7 @@
             <div class="form-item col-md-12">
                 <label class="label-top">容纳人数：</label>
                 <input class="easyui-validatebox easyui-textbox" prompt="请输入容纳人数" name="capacityCnt" data-options="required:true, missingMessage:'请输入容纳人数', validType:'isNumber'">
-            </div>
+            </div>-->
 
             <div class="form-item col-md-12">
                 <label class="label-top">状态：</label>
@@ -258,7 +279,7 @@
             <label class="label-top" style="float:left;">地图标点：</label>
 
             <!--<label class="label-top Label"></label>-->
-            <div id="basePosDetailMap" style="width:500px;height:300px;float:left;"></div>
+            <div id="basePosDetailMap" style="width:80%;height:100%;float:left;"></div>
         </div>
 
         <div class="form-item col-md-12">
@@ -315,7 +336,7 @@
             <label class="label-top labelIdsLabel"></label>
         </div>
 
-        <div class="form-item col-md-12">
+        <!--<div class="form-item col-md-12">
             <label class="label-top">开放时间：</label>
 
             <label class="label-top openTimeLabel"></label>
@@ -325,7 +346,7 @@
             <label class="label-top">容纳人数：</label>
 
             <label class="label-top capacityCntLabel"></label>
-        </div>
+        </div>-->
 
         <div class="form-item col-md-12">
             <label class="label-top">状态：</label>
@@ -339,9 +360,6 @@
     </div>
 </div>
 
-<!--<script type="text/javascript" src='http://webapi.amap.com/maps?v=1.4.9&key=71ed158dfd75e6a2895742582b3b83b7&plugin=AMap.PlaceSearch'></script>
-&lt;!&ndash; UI组件库 1.0 &ndash;&gt;
-<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>-->
 <script type="text/javascript">
     ;(function ($, window, document, undefined){
 
@@ -394,11 +412,11 @@
                     field: 'contactPhone',
                     title: '电话',
                     width: 50
-                },  {
+                }/*,  {
                     field: 'capacityCnt',
                     title: '容纳人数',
                     width: 50
-                },  {
+                }*/,  {
                     field: 'ctime',
                     title: '创建时间',
                     width: 100
@@ -473,6 +491,20 @@
             zoom: 10
         });
 
+        AMapUI.loadUI(['control/BasicControl'], function(BasicControl) {
+
+            //缩放控件，显示Zoom值
+            map.addControl(new BasicControl.Zoom({
+                position: 'lb',
+                showZoomNum: true
+            }));
+
+            //图层切换控件
+            map.addControl(new BasicControl.LayerSwitcher({
+                position: 'rt'
+            }));
+        });
+
         AMapUI.loadUI(['misc/PoiPicker'], function(PoiPicker) {
 
             var poiPicker = new PoiPicker({
@@ -524,6 +556,10 @@
             });
         }
 
+        $(".wind_direction div").click(function() {
+            $(this).toggleClass("wind_direction_text").toggleClass("wind_direction_text_active");
+        });
+
     })(jQuery, window, document);
 
 
@@ -544,85 +580,6 @@
 
         //调整输入框长度
         $("#coolplayBaseForm").find('span.textbox.textbox-invalid').css('width', '80%');
-
-
-
-
-        /*
-        //百度地图功能 START---
-        window.basePosMap = new BMap.Map("basePosMap");
-
-        window.basePosMap.centerAndZoom(new BMap.Point(116.4035,39.915),8);
-        window.basePosMap.enableScrollWheelZoom(true);
-        //百度地图功能 END---
-
-        var ac = new BMap.Autocomplete({
-                "input" : "suggestId",
-                "location" : window.basePosMap
-            });
-
-        $("#suggestId").on('click', function(){
-            $('.tangram-suggestion-main').css('z-index', 10000);
-        });
-
-        ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
-            var str = "";
-            var _value = e.fromitem.value;
-            var value = "";
-            if (e.fromitem.index > -1) {
-                value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-            }
-            str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
-
-            value = "";
-            if (e.toitem.index > -1) {
-                _value = e.toitem.value;
-                value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-            }
-            str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
-            $("#searchResultPanel").html(str);
-        });
-
-        var myValue;
-        ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
-            var _value = e.item.value;
-            myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
-            $("#searchResultPanel").html("onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue);
-
-            setPlace();
-        });
-
-        function setPlace(){
-            window.basePosMap.clearOverlays();    //清除地图上所有覆盖物
-            function myFun(){
-                var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
-                window.basePosMap.centerAndZoom(pp, 18);
-                window.basePosMap.addOverlay(new BMap.Marker(pp));    //添加标注
-            }
-            var local = new BMap.LocalSearch(window.basePosMap, { //智能搜索
-                onSearchComplete: myFun
-            });
-            local.search(myValue);
-
-            $('.tangram-suggestion-main').css('z-index', 10000);
-        }
-
-        window.basePosMap.addEventListener("click",function(e){
-
-            //移除所有标注
-            var allOverlay = window.basePosMap.getOverlays();
-            for(var i = 0;i<allOverlay.length;i++) {
-                if(allOverlay[i].toString()=="[object Marker]"){
-                    window.basePosMap.removeOverlay(allOverlay[i]);
-                }
-            }
-
-            console.log(e.point);
-            var markPoint = e.point;
-            var point = new BMap.Point(markPoint.lng, markPoint.lat);
-            var marker = new BMap.Marker(point);
-            window.basePosMap.addOverlay(marker);
-        });*/
     }
 
     /**
@@ -645,8 +602,38 @@
             $(".contactAddressLabel").text(data.contactAddress);
             $(".contactPhoneLabel").text(data.contactPhone);
 
+
+            //渲染基地地图
+            var map = new AMap.Map('basePosDetailMap', {
+                zoom: 10,
+                center:[data.posX,data.posY]
+            });
+
+            AMapUI.loadUI(['control/BasicControl', 'overlay/SimpleMarker'], function(BasicControl, SimpleMarker) {
+
+                //缩放控件，显示Zoom值
+                map.addControl(new BasicControl.Zoom({
+                    position: 'lb',
+                    showZoomNum: true
+                }));
+
+                //图层切换控件
+                map.addControl(new BasicControl.LayerSwitcher({
+                    position: 'rt'
+                }));
+
+                var marker = new AMap.Marker({
+                    map:map,
+                    position:[data.posX,data.posY],
+                    label: {
+                        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+                        //content: ""
+                    }
+                });
+            });
+
             //百度地图功能 START---
-            window.basePosDetailMap = new BMap.Map("basePosDetailMap");
+            /*window.basePosDetailMap = new BMap.Map("basePosDetailMap");
 
             if(data.posX > 0 && data.posY > 0) {
                 window.basePosDetailMap.centerAndZoom(new BMap.Point(data.posX, data.posY),8);
@@ -657,7 +644,7 @@
             } else {
                 window.basePosDetailMap.centerAndZoom(new BMap.Point(116.404, 39.915),8);
             }
-            window.basePosDetailMap.enableScrollWheelZoom(true);
+            window.basePosDetailMap.enableScrollWheelZoom(true);*/
 
             //百度地图功能 END---
 
@@ -669,8 +656,8 @@
             $(".monitorVideoUrlLabel").text(data.monitorVideoUrl);
             $(".baseTypeLabel").text(data.baseType);
             $(".labelIdsLabel").text(data.labelName);
-            $(".openTimeLabel").text(data.openTime);
-            $(".capacityCntLabel").text(data.capacityCnt);
+            /*$(".openTimeLabel").text(data.openTime);
+            $(".capacityCntLabel").text(data.capacityCnt);*/
             var isCloseStr = "正常";
             if(data.isClose == 1) {
                 isCloseStr = "关闭";
@@ -727,6 +714,19 @@
             App.showMsg('请输入基地地图位置!');
             return false;
         }
+
+        //获取可飞风向数据
+        if($(".wind_direction_text_active").length() == 0) {
+            App.showMsg('请选择可飞风向!');
+            return false;
+        } else {
+            var flyDirections = [];
+            $(".wind_direction_text_active").each(function(){
+                flyDirections.push($(this).attr('data'));
+            });
+            $("input[name=flyDirection]").val(flyDirections.join(','));
+        }
+
 
         $("#coolplayBaseForm").submit();
     }
