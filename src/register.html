@@ -88,7 +88,31 @@
             </li>
             <li>
                 <span>身份证正反面</span>
+
                 <div class="imageList">
+                    <dl id="imageListTwe">
+                        <dd>
+                            <button type="button" class="btnTwe" onclick="document.getElementById('ShenFenOne').click()">
+                                <img id="shenFenImageOne" src="cdn/img/jiaHao.png"/>
+                            </button>
+                            <p>正面</p>
+                        </dd>
+                        <dd>
+                            <button type="button" class="btnTwe" onclick="document.getElementById('ShenFenTwe').click()">
+                                <img id="shenFenImageTwe" src="cdn/img/jiaHao.png"/>
+                            </button>
+                            <p>反面</p>
+                        </dd>
+                    </dl>
+                </div>
+
+                <div class="hiddenClass">
+                    <input type="file" id="ShenFenOne" name="file" style="display: none;" />
+                    <input type="file" id="ShenFenTwe" name="file" style="display: none;" />
+                </div>
+                <div style="width: 100%;height: 1px;clear: both;"></div>
+
+                <!--<div class="imageList">
                     <dl id="imageListTwe">
                         <dd>
                             <button type="button" class="btnTwe" onclick="document.getElementById('fileTwe').click()">
@@ -98,7 +122,7 @@
                     </dl>
                 </div>
                 <input type="file" id="fileTwe" name="file" style="display: none;" />
-                <div style="width: 100%;height: 1px;clear: both;"></div>
+                <div style="width: 100%;height: 1px;clear: both;"></div>-->
 
                 <input type="hidden" name="idcardPositivePhoto" />
                 <input type="hidden" name="idcardNegativePhoto" />
@@ -188,16 +212,24 @@
             this.splice(index, 1);
         }
     };
-    var arrOne = []; // 营业执照附件
-    var arrTwe = []; // 身份证正反面
-    var arrOneUrlArr = []; //营业执照附件链接
-    var arrTweUrlArr = []; //身份证正反面链接
+    var access_token = "24.0d58ffdab85ad0ad5b4bf6774b3051e2.2592000.1576122983.282335-17751777";
+    var arrOne = []; /* 营业执照附件*/
+    var arrTwe = []; /* 身份证正反面*/
+    var arrOneUrlArr = []; /*营业执照附件链接*/
+    var arrTweUrlArr = []; /*身份证正反面链接*/
+    var ShenFenOne = ''; /*身份证正面*/
+    var ShenFenTwe = ''; /*身份证反面*/
+    var ShenFenTypeOne = 0;
+    var ShenFenTypeTwe = 0;
+
+    var frontImageUrl = '';//身份证正面地址
+    var backImageUrl = '';//身份证反面地址
 
     /**
      * 更新事件
      */
     function uploadListener() {
-        $('#fileOne').change(function(){   // 营业执照附件监听
+        $('#fileOne').change(function(){
             uploadImage("fileOne", function(data){
                 arrOneUrlArr.push(data.attachmentUrl);
 
@@ -209,10 +241,42 @@
         });
     }
 
-    function uploadFileTweListener() {
-        $('#fileTwe').change(function(){   // 身份证正反面监听
+    /** 身份证背面上传事件 */
+    function uploadShenFenOneListener() {
+
+        $('#ShenFenOne').change(function(){
+
+            //身份证图片验证
+            ShenFenOne = this.files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[0]);
+            reader.onload = function (e,event) {
+                var base64Image = e.target.result;
+                $("#shenFenImageOne").attr('src',base64Image);
+                $("#shenFenImageOne").attr('class','image');
+                base64Image = base64Image.split(",")[1];
+                parse(base64Image,'front');
+            };
 
             /** 身份证正反面附件上传 */
+            uploadImage("ShenFenOne", function(data){
+                frontImageUrl = data.attachmentUrl;
+
+                $("#shenFenImageOne").attr('src', data.attachmentUrl);
+                $("#shenFenImageOne").attr('class', 'image');
+
+                //$('#imageListTwe').prepend('<dd><img src = "'+data.attachmentUrl+'"/><b imgname = "'+data.attachmentUrl+'" imgurl="'+ data.attachmentUrl +'" onclick="deleteImage(this,2)">x</b>>x</b></dd>');
+                $("#ShenFenOne").replaceWith('<input type="file" id="ShenFenOne" name="file" style="display: none;" />');
+
+                uploadShenFenOneListener();
+            });
+        });
+
+
+
+        /*$('#fileTwe').change(function(){
+
+            /!** 身份证正反面附件上传 *!/
             uploadImage("fileTwe", function(data){
                 arrTweUrlArr.push(data.attachmentUrl);
 
@@ -221,10 +285,122 @@
 
                 uploadFileTweListener();
             });
+        });*/
+    }
+
+    /** 身份证背面上传事件 */
+    function uploadShenFenTweListener() {
+        $('#ShenFenTwe').change(function(){
+            //身份证反面图片验证
+            ShenFenTwe = this.files[0];
+            var reader = new FileReader();
+            reader.readAsDataURL(this.files[0]);
+            reader.onload = function (e) {
+                var base64Image = e.target.result;
+                $("#shenFenImageTwe").attr('src',base64Image);
+                $("#shenFenImageTwe").attr('class','image');
+                base64Image = base64Image.split(",")[1];
+                parse(base64Image,'back');
+            };
+
+
+            /** 身份证正反面附件上传 */
+            uploadImage("ShenFenTwe", function(data){
+                backImageUrl = data.attachmentUrl;
+
+                $("#shenFenImageTwe").attr('src', data.attachmentUrl);
+                $("#shenFenImageTwe").attr('class', 'image');
+
+                //$('#imageListTwe').prepend('<dd><img src = "'+data.attachmentUrl+'"/><b imgname = "'+data.attachmentUrl+'" imgurl="'+ data.attachmentUrl +'" onclick="deleteImage(this,2)">x</b>>x</b></dd>');
+                $("#ShenFenTwe").replaceWith('<input type="file" id="ShenFenTwe" name="file" style="display: none;" />');
+
+                uploadShenFenTweListener();
+            });
         });
     }
 
-    // 图片删除
+    /*$("#ShenFenOne").change(function () {
+        ShenFenOne = this.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
+        reader.onload = function (e,event) {
+            var base64Image = e.target.result;
+            $("#shenFenImageOne").attr('src',base64Image);
+            $("#shenFenImageOne").attr('class','image');
+            base64Image = base64Image.split(",")[1];
+            parse(base64Image,'front');
+        };
+    });
+
+    $("#ShenFenTwe").change(function () {
+        ShenFenTwe = this.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
+        reader.onload = function (e) {
+            var base64Image = e.target.result;
+            $("#shenFenImageTwe").attr('src',base64Image);
+            $("#shenFenImageTwe").attr('class','image');
+            base64Image = base64Image.split(",")[1];
+            parse(base64Image,'back');
+        };
+    });*/
+
+    /* 百度识别 */
+    function parse(base64Image,b) {
+        var _b = b;
+        var url = "https://aip.baidubce.com/rest/2.0/ocr/v1/idcard?access_token=" + access_token;
+        $.ajax({
+            url: url,
+            type: "post",
+            dataType: 'json',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                image: base64Image,
+                id_card_side: b
+            },
+            success: function (data) {
+                console.log(data);
+                if(data.image_status == 'non_idcard'){
+                    if (_b == 'front') {
+                        ShenFenTypeOne = 0;
+                        $(".btnTwe").eq(0).css("border-color",'#f00');
+                    }else if(_b == 'back'){
+                        ShenFenTypeTwe = 0;
+                        $(".btnTwe").eq(1).css("border-color",'#f00');
+                    }
+
+                    App.showMsg("非身份证图片, 请上传身份证图片。");
+                } else if(data.image_status == 'reversed_side') {
+                    if (_b == 'front') {
+                        ShenFenTypeOne = 0;
+                        $(".btnTwe").eq(0).css("border-color",'#f00');
+
+                        App.showMsg("非身份证正面图片, 请上传身份证正面图片。");
+                    }else if(_b == 'back'){
+                        ShenFenTypeTwe = 0;
+                        $(".btnTwe").eq(1).css("border-color",'#f00');
+
+                        App.showMsg("非身份证反面图片, 请上传身份证反面图片。");
+                    }
+                } else {
+                    if (_b == 'front') {
+                        ShenFenTypeOne = 1;
+                        $(".btnTwe").eq(0).css("border-color",'#00ec00');
+                    }else if(_b == 'back'){
+                        ShenFenTypeTwe = 1;
+                        $(".btnTwe").eq(1).css("border-color",'#00ec00');
+                    }
+                }
+            },
+            error: function (xhr, type, errorThrown) {
+                alert('识别失败');
+            }
+        });
+    }
+
+    /* 图片删除*/
     function deleteImage(a,b){
         var imgname = $(a).attr('imgname');
         var imgurl = $(a).attr('imgurl');
@@ -262,7 +438,7 @@
         $(a).parent().remove();
     }
 
-    // 获取行业
+    /* 获取行业*/
     function getInd(){
         var ddList = $('.fuXuan .xz');
         var valList = [];
@@ -297,7 +473,7 @@
         $(a).parent().remove();
     }
 
-    function getzdy(){    //  获取自定标签
+    function getzdy(){
         var cc = $('.zdy span');
         var textArr = [];
         for (var i=0;i<cc.length;i++) {
@@ -333,7 +509,7 @@
     }
 
     ;(function ($, window, document, undefined){
-        //获取行业选项信息
+        /*获取行业选项信息*/
         App.getRequestData('/api/noneAuth/industryOptions', {}, function(result) {
             for(var i = 0; i < result.length; i++) {
                 $(".fuXuan").append($('<dd val = "'+ result[i]['value'] +'">'+ result[i]['text'] +'</dd>'));
@@ -368,7 +544,7 @@
             }
         });*/
 
-        //验证表单信息
+        /*验证表单信息*/
         $("#registerForm").validate({
             errorElement: 'p',
             errorClass: 'falseP',
@@ -381,7 +557,7 @@
                     success: function(data) {
                         if (data.code == 200) {
                             alert('注册成功，平台审核通过后短信通知您登录方式...');
-                            //App.showMsg('注册成功，平台审核通过后短信通知您登录方式...');
+                            /*App.showMsg('注册成功，平台审核通过后短信通知您登录方式...');*/
 
                             $("#submit-btn").attr('disabled', true);
                             $("#submit-btn").css('background-color', '#778899');
@@ -469,10 +645,12 @@
         });
 
         uploadListener();
-        uploadFileTweListener();
+        //uploadFileTweListener();
+        uploadShenFenOneListener();
+        uploadShenFenTweListener();
     })(jQuery, window, document);
 
-    // 注册
+    /* 注册*/
     function register() {
         var industryList = getInd();
         if(industryList.length == 0) {
@@ -500,17 +678,18 @@
             $("input[name=businessLicenseUrl]").val(arrOneUrlArr.join(','));
         }
 
-        if(arrTweUrlArr.length == 0) {
-            alert("请上传身份证正反面...");
+        //var ShenFenTypeOne = 0;
+        //var ShenFenTypeTwe = 0;
+        if(ShenFenTypeOne == 0 || ShenFenTypeTwe == 0) {
+            alert("请上传身份证正反面, 并确认上传图片正确...");
 
             return false;
         } else {
             /*<input type="hidden" name="idcardPositivePhoto" />
             <input type="hidden" name="idcardNegativePhoto" />*/
-            $("input[name=idcardPositivePhoto]").val(arrTweUrlArr[0]);
-            $("input[name=idcardNegativePhoto]").val(arrTweUrlArr[1]);
+            $("input[name=idcardPositivePhoto]").val(frontImageUrl);
+            $("input[name=idcardNegativePhoto]").val(backImageUrl);
         }
-
 
         $("#registerForm").submit();
     }

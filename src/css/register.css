@@ -310,3 +310,38 @@ p.falseP{
     margin-top: 10px;
     box-sizing: border-box;
 }
+#imageListTwe>dd{
+    width: 48%;
+    height: auto;
+}
+#imageListTwe>dd>p{
+    text-align: center;
+}
+#imageListTwe>dd>.btnTwe{
+    height:230px;
+    overflow: hidden;
+    padding: 5px;
+    box-sizing: border-box;
+}
+#imageListTwe>dd>.btnTwe>img.image{
+    width: 100%;
+    height: 100%;
+}
+
+.Successbanner{
+    background-color: #0657A8;
+}
+.Successbanner>h1{
+    color: #fff;
+    text-align: center;
+    margin-top: 15%;
+}
+.Successbanner p{
+    color: #fff;
+    text-align: center;
+    margin-top: 5%;
+}
+.Successbanner p a{
+    color: #fff;
+    text-decoration: none;
+}

@@ -82,7 +82,7 @@
         }
     });
 
-    /*$.extend($.validator.messages, {
+    $.extend($.validator.messages, {
         required   : "必选字段",
         remote     : "请修正该字段",
         email      : "请输入正确格式的电子邮件",
@@ -118,6 +118,6 @@
     jQuery.validator.addMethod("isMobile", function(value, element) {
         var length = value.length;
         return this.optional(element) || (length == 11 && /^1[3,4,5,6,7,8,9][0-9]{9}$/.test(value));
-    }, "请正确填写您的手机号码。");*/
+    }, "请正确填写您的手机号码。");
 
 })(jQuery, window, document);
