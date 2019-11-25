@@ -43,6 +43,7 @@
         .amap_lib_placeSearch .poi-more {
             display: none!important;
         }
+
     </style>
 </head>
 
@@ -82,12 +83,12 @@
             <div class="form-item col-md-12">
                 <label class="label-top">基地全称：</label>
 
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入基地全称" name="baseFullName" data-options="required:true, missingMessage:'请输入基地全称'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入基地全称" id="coolplayBase_baseFullName" name="baseFullName" data-options="required:true, missingMessage:'请输入基地全称'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
                 <label class="label-top">基地简称：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入基地简称" name="baseName" data-options="required:true, missingMessage:'请输入基地简称'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入基地简称" id="coolplayBase_baseName" name="baseName" data-options="required:true, missingMessage:'请输入基地简称'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12" style="height:300px;">
@@ -101,12 +102,12 @@
 
             <div class="form-item col-md-12">
                 <label class="label-top">联系人：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入联系人" name="contactName" data-options="required:true, missingMessage:'请输入联系人'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入联系人" id="coolplayBase_contactName" name="contactName" data-options="required:true, missingMessage:'请输入联系人'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
                 <label class="label-top">联系电话：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入联系电话" name="contactPhone" data-options="required:true, missingMessage:'请输入联系电话', validType:'telephone'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入联系电话" id="coolplayBase_contactPhone" name="contactPhone" data-options="required:true, missingMessage:'请输入联系电话', validType:'telephone'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12" style="height:320px;">
@@ -124,43 +125,33 @@
 
             <div class="form-item col-md-12">
                 <label class="label-top">基地地址：</label>
-                <input class="easyui-validatebox easyui-textbox" id="coolplayBase_contactAddress" prompt="请输入基地地址" name="contactAddress" data-options="required:true, missingMessage:'请输入基地地址'">
+                <input class="easyui-validatebox easyui-textbox" id="coolplayBase_contactAddress" prompt="请输入基地地址" name="contactAddress" data-options="required:true, missingMessage:'请输入基地地址'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
                 <label class="label-top">起飞场GPS：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入起飞场GPS" name="departuresGps" data-options="required:true, missingMessage:'请输入起飞场GPS', validType:'isGps'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入起飞场GPS" id="coolplayBase_departuresGps" name="departuresGps" data-options="required:true, missingMessage:'请输入起飞场GPS', validType:'isGps'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
                 <label class="label-top">起飞场海拔高度：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入起飞场海拔高度" name="departuresHeight" data-options="required:true, missingMessage:'请输入起飞场海拔高度', validType:'isNumber'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入起飞场海拔高度" id="coolplayBase_departuresHeight" name="departuresHeight" data-options="required:true, missingMessage:'请输入起飞场海拔高度', validType:'isNumber'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
                 <label class="label-top">降落场GPS：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入降落场GPS" name="landGps" data-options="required:true, missingMessage:'请输入降落场GPS', validType:'isGps'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入降落场GPS" id="coolplayBase_landGps" name="landGps" data-options="required:true, missingMessage:'请输入降落场GPS', validType:'isGps'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
                 <label class="label-top">降落场海拔高度：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入降落场海拔高度" name="landHeight" data-options="required:true, missingMessage:'请输入降落场海拔高度', validType:'isNumber'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入降落场海拔高度" id="coolplayBase_landHeight" name="landHeight" data-options="required:true, missingMessage:'请输入降落场海拔高度', validType:'isNumber'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
                 <label class="label-top" style="float:left;">可飞风向：</label>
                 <!--<input class="easyui-validatebox easyui-textbox" prompt="请输入可飞风向" name="flyDirection" data-options="required:true, missingMessage:'请输入可飞风向'">
 -->
-                <!--<div style="height:300px;">
-                    <span class="normal_left_arrow"></span>
-                    <span class="left_top_arrow"></span>
-                    <span class="normal_top_arrow"></span>
-                    <span class="right_top_arrow"></span>
-                    <span class="normal_right_arrow"></span>
-                    <span class="right_bottom_arrow"></span>
-                    <span class="normal_bottom_arrow"></span>
-                    <span class="left_bottom_arrow"></span>
-                </div>-->
                 <div class="wind_direction" style="margin-left:300px;">
                     <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 3.3in; right: 1in; top: 1.45in;" data="西风">西风</div>
                     <div class="wind_direction_text" style="position:absolute; bottom: 3in; left: 3.3in; right: 1in; top: 0.3in;" data="西北风">西北风</div>
@@ -202,12 +193,12 @@
 
             <div class="form-item col-md-12">
                 <label class="label-top">监控视频url：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入监控视频url" name="monitorVideoUrl" data-options="required:true, missingMessage:'请输入监控视频url'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入监控视频url" id="coolplayBase_monitorVideoUrl" name="monitorVideoUrl" data-options="required:true, missingMessage:'请输入监控视频url'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
                 <label class="label-top">基地类型：</label>
-                <input class="easyui-validatebox easyui-textbox" prompt="请输入基地类型" name="baseType" data-options="required:true, missingMessage:'请输入基地类型'">
+                <input class="easyui-validatebox easyui-textbox" prompt="请输入基地类型" id="coolplayBase_baseType" name="baseType" data-options="required:true, missingMessage:'请输入基地类型'" style="width: 80%;">
             </div>
 
             <div class="form-item col-md-12">
@@ -231,7 +222,7 @@
             <div class="form-item col-md-12">
                 <label class="label-top">状态：</label>
 
-                <select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="isClose">
+                <select class="easyui-combobox" data-options="editable:false,panelHeight:null" id="coolplayBase_isClose" name="isClose">
                     <option value="0" selected>正常</option>
                     <option value="1">关闭</option>
                 </select>
@@ -492,6 +483,9 @@
             zoom: 10
         });
 
+        window.map = map;
+        window.markers = markers;
+
         var geocoder = new AMap.Geocoder({
             city: "010", //城市设为北京，默认：“全国”
             radius: 1000 //范围，默认：500
@@ -535,8 +529,11 @@
                 }
             });
 
+            //定位设置坐标
+            $("#coolplayBaseForm").find("input[name=posX]").val(e.lnglat.getLng());
+            $("#coolplayBaseForm").find("input[name=posY]").val(e.lnglat.getLat());
+
             geocoder.getAddress(e.lnglat.getLng() + "," + e.lnglat.getLat(), function(status, result) {
-                debugger;
                 if (status === 'complete' && result.regeocode) {
                     var address = result.regeocode.formattedAddress;
                     $("#coolplayBase_contactAddress").textbox('setValue', address);
@@ -611,7 +608,38 @@
         });
 
         //调整输入框长度
-        $("#coolplayBaseForm").find('span.textbox.textbox-invalid').css('width', '80%');
+        //$("#coolplayBaseForm").find('span.textbox.textbox-invalid').css('width', '80%');
+        if(window.markers && window.markers.length > 0) {
+            window.map.remove(window.markers);
+        }
+
+        $("#coolplayBase_baseFullName").textbox('setValue', '');
+        $("#coolplayBase_baseName").textbox('setValue', '');
+        $("#baseDescEditorDiv").texteditor('setValue', '');
+        $("#coolplayBaseForm").find("input[name=baseDesc]").val('');
+        $("#coolplayBase_contactName").textbox('setValue', '');
+        $("#coolplayBase_contactPhone").textbox('setValue', '');
+        $("#coolplayBase_contactAddress").textbox('setValue', '');
+        $("#coolplayBase_departuresGps").textbox('setValue', '');
+        $("#coolplayBase_departuresHeight").textbox('setValue', '');
+        $("#coolplayBase_landGps").textbox('setValue', '');
+        $("#coolplayBase_landHeight").textbox('setValue', '');
+        $("#coolplayBase_monitorVideoUrl").textbox('setValue', '');
+        $("#coolplayBase_baseType").textbox('setValue', '');
+        $("#coolplayBase_isClose").combobox('setValue', '0');
+
+        $(".labelIdsDiv").find('input[type=checkbox]').prop("checked", false);
+        $("#coolplayBaseForm").find("input[name=flyDirection]").val('');
+
+        $("#coolplayBaseForm").find("input[name=posX]").val('');
+        $("#coolplayBaseForm").find("input[name=posY]").val('');
+
+        $(".wind_direction_text_active").each(function(){
+            $(this).removeClass('wind_direction_text_active');
+            $(this).addClass('wind_direction_text');
+        });
+        //$(this).toggleClass("wind_direction_text").toggleClass("wind_direction_text_active");
+
     }
 
     /**
@@ -734,13 +762,14 @@
 
         $("input[name=baseDesc]").val(baseDescVal);
 
-        var allOverlay = window.basePosMap.getOverlays();
+        /*var allOverlay = window.basePosMap.getOverlays();
         for(var i = 0;i<allOverlay.length;i++) {
             if(allOverlay[i].toString()=="[object Marker]"){
                 $("#coolplayBaseForm").find("input[name=posX]").val(allOverlay[i].point.lng);
                 $("#coolplayBaseForm").find("input[name=posY]").val(allOverlay[i].point.lat);
             }
-        }
+        }*/
+
 
         if($("#coolplayBaseForm").find("input[name=posX]").val() == '') {
             App.showMsg('请输入基地地图位置!');
@@ -748,7 +777,7 @@
         }
 
         //获取可飞风向数据
-        if($(".wind_direction_text_active").length() == 0) {
+        if($(".wind_direction_text_active").size() == 0) {
             App.showMsg('请选择可飞风向!');
             return false;
         } else {
