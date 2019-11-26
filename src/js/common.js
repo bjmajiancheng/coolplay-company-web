@@ -70,9 +70,9 @@
         },
         isGps: {
             validator: function (value) {
-                return /^\d*(?:\.\d{0,5})?$/.test(value);
+                return /^\d*(?:\.\d{0,6})?,\d*(?:\.\d{0,6})?$/.test(value);
             },
-            message: '请输入数字(例:0.00000),最高保留五位小数'
+            message: '请输入GPS地址(例:116.486691,40.002490)'
         },
         isNumber: {
             validator: function (value) {
