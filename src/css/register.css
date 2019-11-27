@@ -328,6 +328,21 @@ p.falseP{
     height: 100%;
 }
 
+#imageListBackgroudImg>dd{
+    width: 96%;
+    height: auto;
+}
+#imageListBackgroudImg>dd>.btnTwe{
+    height:230px;
+    overflow: hidden;
+    padding: 5px;
+    box-sizing: border-box;
+}
+#imageListBackgroudImg>dd>.btnTwe>img.image{
+    width: 100%;
+    height: 100%;
+}
+
 .Successbanner{
     background-color: #0657A8;
 }

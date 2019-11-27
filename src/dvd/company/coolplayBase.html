@@ -124,6 +124,11 @@
             </div>
 
             <div class="form-item col-md-12">
+                <label class="label-top">GPS坐标：</label>
+                <input class="easyui-validatebox easyui-textbox" id="coolplayBase_gps" prompt="请输入GPS坐标" name="gps" data-options="required:true, missingMessage:'请输入GPS坐标', validType:'isGps'" style="width: 80%;">
+            </div>
+
+            <div class="form-item col-md-12">
                 <label class="label-top">基地地址：</label>
                 <input class="easyui-validatebox easyui-textbox" id="coolplayBase_contactAddress" prompt="请输入基地地址" name="contactAddress" data-options="required:true, missingMessage:'请输入基地地址'" style="width: 80%;">
             </div>
@@ -135,6 +140,7 @@
             <div class="form-item col-md-12">
                 <label class="label-top">起飞场GPS：</label>
                 <input class="easyui-validatebox easyui-textbox" prompt="请输入起飞场GPS" id="coolplayBase_departuresGps" name="departuresGps" data-options="required:true, missingMessage:'请输入起飞场GPS', validType:'isGps'" style="width: 80%;">
+
             </div>
 
             <div class="form-item col-md-12">
@@ -145,6 +151,7 @@
             <div class="form-item col-md-12">
                 <label class="label-top">降落场GPS：</label>
                 <input class="easyui-validatebox easyui-textbox" prompt="请输入降落场GPS" id="coolplayBase_landGps" name="landGps" data-options="required:true, missingMessage:'请输入降落场GPS', validType:'isGps'" style="width: 80%;">
+
             </div>
 
             <div class="form-item col-md-12">
@@ -545,6 +552,7 @@
                 if (status === 'complete' && result.regeocode) {
                     var address = result.regeocode.formattedAddress;
                     $("#coolplayBase_contactAddress").textbox('setValue', address);
+                    $("#coolplayBase_gps").textbox('setValue', e.lnglat.getLng() + "," + e.lnglat.getLat());
                 }else{
                     console.log('根据经纬度查询地址失败');
                 }
@@ -557,26 +565,30 @@
 
             window.poiPicker = poiPicker;
 
-            var marker = new AMap.Marker();
-
             //选取了某个POI
             poiPicker.on('poiPicked', function(poiResult) {
                 poi = poiResult.item;
+
+                var marker = new AMap.Marker();
 
                 marker.setMap(map);
 
                 marker.setPosition(poi.location);
                 map.setCenter(marker.getPosition());
 
-                debugger;
                 geocoder.getAddress(poi.location.lng + "," + poi.location.lat, function(status, result) {
                     if (status === 'complete' && result.regeocode) {
                         var address = result.regeocode.formattedAddress;
                         $("#coolplayBase_contactAddress").textbox('setValue', address);
+                        $("#coolplayBase_gps").textbox('setValue', poi.location.lng + "," + poi.location.lat);
                     }else{
                         console.log('根据经纬度查询地址失败');
                     }
                 });
+
+                if(markers.length > 0) {
+                    map.remove(markers);
+                }
 
                 markers.push(marker);
             });

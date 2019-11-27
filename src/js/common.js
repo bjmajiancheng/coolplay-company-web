@@ -70,7 +70,7 @@
         },
         isGps: {
             validator: function (value) {
-                return /^\d*(?:\.\d{0,6})?,\d*(?:\.\d{0,6})?$/.test(value);
+                return /^\d*(?:\.\d{6})?,\d*(?:\.\d{6})?$/.test(value);
             },
             message: '请输入GPS地址(例:116.486691,40.002490)'
         },
@@ -119,5 +119,10 @@
         var length = value.length;
         return this.optional(element) || (length == 11 && /^1[3,4,5,6,7,8,9][0-9]{9}$/.test(value));
     }, "请正确填写您的手机号码。");
+
+    // GPS地址验证
+    jQuery.validator.addMethod("isGps", function(value, element) {
+        return this.optional(element) || /^\d*(?:\.\d{6})?,\d*(?:\.\d{6})?$/.test(value);
+    }, "请输入GPS地址(例:116.486691,40.002490)。");
 
 })(jQuery, window, document);
