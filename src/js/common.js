@@ -70,9 +70,9 @@
         },
         isGps: {
             validator: function (value) {
-                return /^\d*(?:\.\d{6})?,\d*(?:\.\d{6})?$/.test(value);
+                return /^\d*(?:\.\d{1,6})?,\d*(?:\.\d{1,6})?$/.test(value);
             },
-            message: '请输入GPS地址(例:116.486691,40.002490)'
+            message: '请输入GPS地址(例:116.486691,40.00249)'
         },
         isNumber: {
             validator: function (value) {
@@ -122,7 +122,7 @@
 
     // GPS地址验证
     jQuery.validator.addMethod("isGps", function(value, element) {
-        return this.optional(element) || /^\d*(?:\.\d{6})?,\d*(?:\.\d{6})?$/.test(value);
-    }, "请输入GPS地址(例:116.486691,40.002490)。");
+        return this.optional(element) || /^\d*(?:\.\d{1,6})?,\d*(?:\.\d{1,6})?$/.test(value);
+    }, "请输入GPS地址(例:116.486691,40.00249)。");
 
 })(jQuery, window, document);

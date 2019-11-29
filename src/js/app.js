@@ -380,6 +380,7 @@
             });*/
             // 上传
             var uploadFile = function () {
+
                 if (ele.find("[role='file']").val() == "") {
                     return;
                 } else {
@@ -402,6 +403,10 @@
                     success: function (json, status) {
                         if (json.code === 200) {
                             json = json.data;
+
+                            ele.find('[role="file"]').on("change", function () {
+                                uploadFile();
+                            });
                         } else {
                             alert(json.message);
                             return;
