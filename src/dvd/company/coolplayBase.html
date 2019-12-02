@@ -576,12 +576,12 @@
             //定位设置坐标
             $("#coolplayBaseForm").find("input[name=posX]").val(e.lnglat.getLng());
             $("#coolplayBaseForm").find("input[name=posY]").val(e.lnglat.getLat());
+            $("#coolplayBase_gps").textbox('setValue', e.lnglat.getLng() + "," + e.lnglat.getLat());
 
             geocoder.getAddress(e.lnglat.getLng() + "," + e.lnglat.getLat(), function(status, result) {
                 if (status === 'complete' && result.regeocode) {
                     var address = result.regeocode.formattedAddress;
                     $("#coolplayBase_contactAddress").textbox('setValue', address);
-                    $("#coolplayBase_gps").textbox('setValue', e.lnglat.getLng() + "," + e.lnglat.getLat());
                 }else{
                     console.log('根据经纬度查询地址失败');
                 }
@@ -605,11 +605,14 @@
                 marker.setPosition(poi.location);
                 map.setCenter(marker.getPosition());
 
+                $("#coolplayBaseForm").find("input[name=posX]").val(poi.location.lng);
+                $("#coolplayBaseForm").find("input[name=posY]").val(poi.location.lat);
+                $("#coolplayBase_gps").textbox('setValue', poi.location.lng + "," + poi.location.lat);
+
                 geocoder.getAddress(poi.location.lng + "," + poi.location.lat, function(status, result) {
                     if (status === 'complete' && result.regeocode) {
                         var address = result.regeocode.formattedAddress;
                         $("#coolplayBase_contactAddress").textbox('setValue', address);
-                        $("#coolplayBase_gps").textbox('setValue', poi.location.lng + "," + poi.location.lat);
                     }else{
                         console.log('根据经纬度查询地址失败');
                     }

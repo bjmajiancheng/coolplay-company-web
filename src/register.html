@@ -646,12 +646,15 @@
                 marker.setPosition(poi.location);
                 map.setCenter(marker.getPosition());
 
+                $("#registerForm").find("input[name=posX]").val(poi.location.lng);
+                $("#registerForm").find("input[name=posY]").val(poi.location.lat);
+
+                $("input[name=gps]").val(poi.location.lng + "," + poi.location.lat);
+
                 geocoder.getAddress(poi.location.lng + "," + poi.location.lat, function(status, result) {
                     if (status === 'complete' && result.regeocode) {
                         var address = result.regeocode.formattedAddress;
                         $("input[name=contactAddress]").val(address);
-
-                        $("input[name=gps]").val(poi.location.lng + "," + poi.location.lat);
                     }else{
                         console.log('根据经纬度查询地址失败');
                     }
