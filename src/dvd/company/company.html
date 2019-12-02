@@ -22,6 +22,9 @@
         <div class="form-item col-md-10">
             <label class="label-top">所属行业：</label>
 
+            <span id="industryIdSpan">
+
+            </span>
         </div>
 
         <div class="form-item col-md-10" style="height:300px;">
@@ -72,6 +75,12 @@
         </div>
 
         <div class="form-item col-md-10">
+            <label class="label-top" style="float:left;">背景图片：</label>
+            <div id="backgroudImgDiv" style="float:left;">
+            </div>
+        </div>
+
+        <div class="form-item col-md-10">
             <label class="label-top" style="float:left;">身份证正反面照片：</label>
             <div id="idcardPositivePhotoDiv" style="float:left;">
             </div>
@@ -102,7 +111,7 @@
 
         <div class="form-item col-md-10">
             <label class="label-top">邮箱：</label>
-            <input id="companyDetail_companyEmail" name="companyEmail" class="easyui-validatebox easyui-textbox" prompt="请输入邮箱" data-options="required:true, missingMessage:'请输入邮箱'" style="width:80%;">
+            <input id="companyDetail_companyEmail" name="companyEmail" class="easyui-validatebox easyui-textbox" prompt="请输入邮箱" data-options="required:true, missingMessage:'请输入邮箱', validType:'email'" style="width:80%;">
         </div>
 
         <div class="form-item col-md-10">
@@ -124,13 +133,33 @@
             $("#companyDetailForm").find("input[name=id]").val(data.id);
             $("#companyDetail_companyFullName").textbox('setValue', data.companyFullName);
             $("#companyDetail_companyName").textbox('setValue', data.companyName);
+            $("#companyDetail_companyDescDiv").texteditor('setValue', data.companyDesc);
+
+            $("input[name=posX]").val(data.posX);
+            $("input[name=posY]").val(data.posY);
+            $("#companyDetail_gps").textbox('setValue', data.posX + "," + data.posY);
+
+            if(data.posX != 0 && data.posY != 0) {
+                var marker = new AMap.Marker({
+                    map:map,
+                    position:[data.posX, data.posY],
+                    label: {
+                        offset: new AMap.Pixel(20, 20),//修改label相对于maker的位置
+                    }
+                });
+                map.setCenter(marker.getPosition());
+                markers.push(marker);
+            }
+
+            $("#companyDetail_majorProject").textbox('setValue', data.majorProject);
+            $("#companyDetail_contactAddress").textbox('setValue', data.contactAddress);
+
+            $("#companyDetail_legalName").textbox('setValue', data.legalName);
+            $("#companyDetail_legalIdcard").textbox('setValue', data.legalIdcard);
             $("#companyDetail_contactName").textbox('setValue', data.contactName);
             $("#companyDetail_contactMobile").textbox('setValue', data.contactMobile);
-            $("#companyDetail_contactAddress").textbox('setValue', data.contactAddress);
-            $("#companyDetail_majorProject").textbox('setValue', data.majorProject);
-            //$("#companyDetail_companyDesc").textbox('setValue', data.companyDesc);
-            $("#companyDetail_companyDescDiv").texteditor('setValue', data.companyDesc);
-            $("#companyDetail_legalIdcard").textbox('setValue', data.legalIdcard);
+            $("#companyDetail_companyEmail").textbox('setValue', data.companyEmail);
+            $("#companyDetail_adminUserName").textbox('setValue', data.adminUserName);
 
             $("#businessLicenseUrl").attr('value', data.businessLicenseUrl);
             $("#idcardPositivePhoto").attr('value', data.idcardPositivePhoto);
@@ -139,6 +168,20 @@
             App.showImage("businessLicenseUrlDiv", data.businessLicenseUrl);
             App.showImage("idcardPositivePhotoDiv", data.idcardPositivePhoto);
             App.showImage("idcardNegativePhotoDiv", data.idcardNegativePhoto);
+            App.showImage("backgroudImgDiv", data.backgroudImg);
+
+            var industryIds = data.industryIds;
+            //所属行业信息初始化
+            App.getRequestData('/api/noneAuth/industryOptions', {}, function(result) {
+                for(var i = 0; i < result.length; i++) {
+                    var row = result[i];
+                    if(industryIds.indexOf(row.value) >= 0) {
+                        $("#industryIdSpan").append($('<label style="min-width:80px;"><input type="checkbox" name="industryIds" style="width:10px;" value="'+row.value+'" checked="checked"/>&nbsp;&nbsp;'+row.text+'</label>'));
+                    } else {
+                        $("#industryIdSpan").append($('<label style="min-width:80px;"><input type="checkbox" name="industryIds" style="width:10px;" value="'+row.value+'"/>&nbsp;&nbsp;'+row.text+'</label>'));
+                    }
+                }
+            });
         });
 
         $('#companyDetailForm').form({
@@ -166,6 +209,10 @@
 
         var businessLicenseUrlEle = App.uploadImage({id:"businessLicenseUrl", name: 'businessLicenseUrl', isAjaxUpload: true, autoUpload: true});
         $('#businessLicenseUrlDiv').append(businessLicenseUrlEle);
+
+        var backgroudImgEle = App.uploadImage({id:"backgroudImg", name: 'backgroudImg', isAjaxUpload: true, autoUpload: true});
+        $('#backgroudImgDiv').append(backgroudImgEle);
+
 
         var markers = [];
 
