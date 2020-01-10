@@ -89,11 +89,13 @@
             </div>
 
             <div class="form-item col-md-12" style="height:300px;">
-                <label class="label-top">基地基本信息：</label>
-                <!--<input class="easyui-validatebox easyui-textbox" prompt="请输入基地基本信息" name="baseDesc" data-options="required:true, missingMessage:'请输入基地基本信息'">-->
+                <label class="label-top" style="float:left;">基地基本信息：</label>
                 <input type="hidden" name="baseDesc"/>
-                <div class="easyui-texteditor" id="baseDescEditorDiv" title="基地基本信息" style="width:80%;height:300px;padding:20px;left:126px;top:0px;">
 
+                <div style="position: relative; float:left;margin-left:4px;width:80%;height:300px;">
+                    <div class="easyui-texteditor" id="baseDescEditorDiv" title="基地基本信息" style="width:100%;height:300px;padding:20px;top:0px;">
+
+                    </div>
                 </div>
             </div>
 
@@ -107,14 +109,17 @@
                 <input class="easyui-validatebox easyui-textbox" prompt="请输入联系电话" id="coolplayBase_contactPhone" name="contactPhone" data-options="required:true, missingMessage:'请输入联系电话', validType:'telephone'" style="width: 80%;">
             </div>
 
-            <div class="form-item col-md-12" style="height:320px;">
+            <div class="form-item col-md-12" style="height:350px;">
                 <label class="label-top" style="float:left;">地图标点：</label>
 
-                <div id="basePosMap" class="map" tabindex="0" style="width: 80%; height: 100%; margin-left: 15px; font-size: 13px;"></div>
-                <div id="pickerBox" style="position: absolute; z-index: 9999999; top: 30px; left: 150px; width: 300px;">
+                <div id="pickerBox" style="position: absolute; z-index: 9999999; top: 5px; left: 121px; width: 300px;">
                     <input id="pickerInput" style="width: 200px; padding: 5px 5px;" placeholder="输入关键字选取地点" />
                     <div id="poiInfo" style="background: #fff;"></div>
                 </div>
+
+
+                <div id="basePosMap" class="map" tabindex="0" style="width: 80%; height: 90%; margin-left: 15px; font-size: 13px; top: 40px;"></div>
+
 
                 <input type="hidden" name="posX" />
                 <input type="hidden" name="posY" />

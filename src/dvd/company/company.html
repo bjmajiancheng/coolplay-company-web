@@ -28,25 +28,26 @@
         </div>
 
         <div class="form-item col-md-10" style="height:300px;">
-            <label class="label-top">公司简介：</label>
+            <label class="label-top" style="float:left;">公司简介：</label>
 
             <input type="hidden" name="companyDesc"/>
 
-            <div class="easyui-texteditor" id="companyDetail_companyDescDiv" title="公司简介" style="width:90%;height:300px;padding:20px;left:126px;top:0px;">
+            <div style="position: relative; float:left;margin-left:4px;width:80%;height:300px;">
+                <div class="easyui-texteditor" id="companyDetail_companyDescDiv" title="公司简介" style="width:100%;height:300px;padding:20px;top:0px;">
 
+                </div>
             </div>
         </div>
 
-        <div class="form-item col-md-10" style="height:300px;">
+        <div class="form-item col-md-10" style="height:350px;">
             <label class="label-top" style="float:left;">地图标点：</label>
 
-
-            <div id="companyPosMap" class="map" tabindex="0" style="width: 80%; height: 100%; float:left; font-size: 13px;"></div>
-
-            <div id="pickerBox" style="position: absolute; z-index: 9999999; top: 20px; left: 150px; width: 300px;">
+            <div id="pickerBox" style="position: absolute; z-index: 9999999; top: 5px; left: 121px; width: 300px;">
                 <input id="pickerInput" style="width: 200px; padding: 5px 5px;" placeholder="输入关键字选取地点" />
                 <div id="poiInfo" style="background: #fff;"></div>
             </div>
+
+            <div id="companyPosMap" class="map" tabindex="0" style="width: 80%; height: 90%; float:left; font-size: 13px; top: 40px;"></div>
 
             <input type="hidden" name="posX" />
             <input type="hidden" name="posY" />
@@ -176,9 +177,9 @@
                 for(var i = 0; i < result.length; i++) {
                     var row = result[i];
                     if(industryIds.indexOf(row.value) >= 0) {
-                        $("#industryIdSpan").append($('<label style="min-width:80px;"><input type="checkbox" name="industryIds" style="width:10px;" value="'+row.value+'" checked="checked"/>&nbsp;&nbsp;'+row.text+'</label>'));
+                        $("#industryIdSpan").append($('<span style="min-width:80px; margin-right:20px;"><input type="checkbox" name="industryIds" style="width:10px;" value="'+row.value+'" checked="checked"/>&nbsp;&nbsp;'+row.text+'</span>'));
                     } else {
-                        $("#industryIdSpan").append($('<label style="min-width:80px;"><input type="checkbox" name="industryIds" style="width:10px;" value="'+row.value+'"/>&nbsp;&nbsp;'+row.text+'</label>'));
+                        $("#industryIdSpan").append($('<span style="min-width:80px; margin-right:20px;"><input type="checkbox" name="industryIds" style="width:10px;" value="'+row.value+'"/>&nbsp;&nbsp;'+row.text+'</span>'));
                     }
                 }
             });

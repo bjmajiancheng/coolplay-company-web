@@ -85,17 +85,17 @@
             </li>
             <li style="height:300px;">
                 <span>地图标点</span>
-                <div id="companyPosMap" class="map" tabindex="0" style="width: 80%; height: 100%; margin-left: 15px; font-size: 13px;"></div>
-
-                <div id="pickerBox" style="position: absolute; z-index: 9999999; top: 470px; left: 190px; width: 300px;">
+                <div id="pickerBox" style="position: absolute; z-index: 9999999; top: 425px; left: 166px; width: 300px;">
                     <input id="pickerInput" style="width: 200px; padding: 5px 5px;" placeholder="输入关键字选取地点" />
                     <div id="poiInfo" style="background: #fff;"></div>
                 </div>
 
+                <div id="companyPosMap" class="map" tabindex="0" style="width: 80%; height: 100%; top: 40px; margin-left: 15px; font-size: 13px;"></div>
+
                 <input type="hidden" name="posX" />
                 <input type="hidden" name="posY" />
             </li>
-            <li>
+            <li style="margin-top:60px;">
                 <span>GPS坐标</span>
                 <input type="text" name="gps" />
             </li>
@@ -203,7 +203,7 @@
             </li>
             <li>
                 <span>后台密码</span>
-                <input type="text" name="adminPassword" />
+                <input type="password" name="adminPassword" />
             </li>
             <li class="btn">
                 <input type="button" onclick="register()" value="注册" id="submit-btn"/>
@@ -689,6 +689,9 @@
                         }
                     }
                 });
+            },
+            invalidHandler: function(form, validator) {
+                alert("请填写正确信息");
             },
             rules:{
                 companyFullName:{
