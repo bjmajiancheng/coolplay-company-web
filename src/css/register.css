@@ -126,7 +126,7 @@ body{
     height: auto;
 }
 .imageList>dl>dd{
-    width: 15%;
+    width: auto;
     height: 181px;
     margin-left: 10px;
     overflow: hidden;
@@ -135,7 +135,7 @@ body{
 }
 .imageList>dl>dd>img{
     height: 100%;
-
+    margin: auto 0;
 }
 .imageList .btnOne{
     width: 100%;
@@ -143,7 +143,7 @@ body{
     border: none;
     background: none;
     margin-top: 10px;
-    border: 1px dashed #888888;
+    /*border: 1px dashed #888888;*/
     border-radius: 12px;
 }
 .imageList .btnTwe{
