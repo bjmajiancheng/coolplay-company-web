@@ -53,6 +53,10 @@
                 <label class="label-top">联系电话：</label>
                 <input id="user_contactPhone" name="contactPhone" class="easyui-validatebox easyui-textbox" prompt="请输入联系电话" data-options="required:true, missingMessage:'请输入联系电话', validType:'telephone'">
             </div>
+            <div class="form-item col-md-10" id="userInfoPasswordDiv">
+                <label class="label-top">密码：</label>
+                <input id="userInfo_password" name="password" class="easyui-validatebox easyui-passwordbox" prompt="请输入密码" data-options="required:true, missingMessage:'请输入密码'">
+            </div>
             <div class="form-item col-md-10">
                 <label class="label-top">账号状态：</label>
                 <select id="user_enabled" class="easyui-combobox" data-options="editable:false,panelHeight:null" name="enabled">
@@ -96,6 +100,28 @@
         <div class="form-item col-md-10">
             <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="closeUserDetail();">关闭</a>
         </div>
+    </div>
+
+    <div id="companyUserPasswordWin" class="align_center" style="display: none;padding-top:30px;" title="修改用户密码">
+        <form id="companyUserPasswordForm" method="post">
+            <input name="id" type="hidden" />
+            <div class="form-item col-md-10">
+                <label class="label-top">原密码：</label>
+                <input id="user_password" name="password" class="easyui-validatebox easyui-passwordbox" prompt="请输入原密码" data-options="required:true, missingMessage:'请输入原密码'">
+            </div>
+            <div class="form-item col-md-10">
+                <label class="label-top">新密码：</label>
+                <input id="user_newPassword" name="newPassword" class="easyui-validatebox easyui-passwordbox" prompt="请输入新密码" data-options="required:true, missingMessage:'请输入新密码'">
+            </div>
+            <div class="form-item col-md-10">
+                <label class="label-top">确认密码：</label>
+                <input id="user_newPasswordConfirm" name="newPasswordConfirm" class="easyui-validatebox easyui-passwordbox" prompt="请输入确认密码" data-options="required:true, missingMessage:'请输入确认密码'">
+            </div>
+            <div class="form-item col-md-10">
+                <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="userPasswordInfoSave()">保存</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="userPasswordInfoCancel()">取消</a>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -177,7 +203,8 @@
                             btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="updateUserEnabled('+ row.id +', 0);">禁用</a>&nbsp;');
                         }
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="userDetail('+ row.id +')">查看</a>&nbsp;');
-                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="editUser('+ row.id +')">修改</a>');
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="editUser('+ row.id +')">修改</a>&nbsp;');
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="editUserPassword('+ row.id +')">修改密码</a>');
                         return btns.join('');
                     }
 
@@ -187,6 +214,25 @@
 
         //初始化用户角色和部门信息
         initUserBaseInfo();
+
+        //密码修改表单提交
+        $('#companyUserPasswordForm').form({
+            url: App.href + '/api/common/companyUser/updateUserPassword',
+            method: 'POST',
+            onSubmit:function(){
+                return $(this).form('validate');
+            },
+            success:function(data){
+                var obj = JSON.parse(data);
+                if (obj.code == 200) {
+                    App.showMsg('保存成功');
+                    $('#companyUserPasswordWin').window('close');
+                } else {
+                    App.showMsg(obj.message);
+                }
+                refreshCompanyUser();
+            }
+        });
 
     })(jQuery, window, document);
 
@@ -312,7 +358,9 @@
         $("#userDeptId").combobox('setValue', '0');
         $("#user_contactPhone").textbox('setValue', '');
         $("#user_enabled").combobox('setValue', '1');
+        $("#userInfo_password").passwordbox('setValue', '');
 
+        $("#userInfoPasswordDiv").show();
         $('#companyUserForm').form({'url': App.href + '/api/common/companyUser/saveUser'});
     }
 
@@ -361,6 +409,7 @@
         });
         $('#companyUserWin').window({title: '用户修改'});
         $("#user_userName").textbox({disabled:true});
+        $("#userInfoPasswordDiv").hide();
 
         App.getRequestData('/api/common/companyUser/getUser', {'userId': userId}, function(data) {
             $("#companyUserForm").find("input[name=id]").val(data.id);
@@ -373,6 +422,45 @@
             $("#user_contactPhone").textbox('setValue', data.contactPhone);
             $("#user_enabled").combobox('setValue', data.enabled);
         });
+    }
+
+    /**
+     * 修改用户密码
+     * @param userId
+     */
+    function editUserPassword(userId) {
+        $('#companyUserPasswordWin').window({
+            width:600,
+            height:400,
+            modal:true
+        });
+
+        $("#companyUserPasswordForm").find("input[name=id]").val(userId);
+        $("#user_password").passwordbox('setValue', "");
+        $("#user_newPassword").passwordbox('setValue', "");
+        $("#user_newPasswordConfirm").passwordbox('setValue', "");
+    }
+
+    /**
+     * 用户密码保存
+     */
+    function userPasswordInfoSave() {
+        var newPassword = $("#user_newPassword").textbox('getValue');
+        var newPasswordConfirm = $("#user_newPasswordConfirm").textbox('getValue');
+
+        if(newPassword != newPasswordConfirm) {
+            App.showMsg('新密码和确认密码不一致，请修改确认密码.');
+            return false;
+        }
+
+        $("#companyUserPasswordForm").submit();
+    }
+
+    /**
+     * 用户密码修改取消
+     */
+    function userPasswordInfoCancel() {
+        $('#companyUserPasswordWin').window('close');
     }
 </script>
 </body>
