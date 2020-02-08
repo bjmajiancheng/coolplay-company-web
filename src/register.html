@@ -65,11 +65,11 @@
     <form id="registerForm" method="post">
         <ul>
             <li>
-                <span>公司全称</span>
+                <span>企业全称</span>
                 <input type="text" name="companyFullName" />
             </li>
             <li>
-                <span>公司简称</span>
+                <span>企业简称</span>
                 <input type="text" name="companyName" />
             </li>
             <li>
@@ -78,9 +78,11 @@
                 </dl>
 
                 <input type="hidden" name="industryIds" />
+                <div style="clear:both"></div>
+                <div style="margin-left:150px;">请认真选择所属行业，切忌选择自己不拥有的服务行业，这样容易影响你企业在用户中的形象，不便于企业经营；一经发现行业选择夸大，将被封号</div>
             </li>
             <li>
-                <span>公司简介</span>
+                <span>企业简介</span>
                 <textarea name="companyDesc" rows="" cols=""></textarea>
             </li>
             <li style="height:300px;">
@@ -100,7 +102,7 @@
                 <input type="text" name="gps" />
             </li>
             <li>
-                <span>公司地址</span>
+                <span>企业地址</span>
                 <input type="text" name="contactAddress" />
             </li>
             <li>
@@ -114,7 +116,7 @@
                 <input type="hidden" name="majorProject" />
             </li>
             <li>
-                <span>营业执照附件</span>
+                <span>企业证照附件（营业执照、经营许可证等）</span>
                 <div class="imageList">
                     <dl id="imageListOne">
                         <dd>
@@ -149,11 +151,11 @@
                 <input type="hidden" name="backgroudImg" />
             </li>
             <li>
-                <span>法人姓名</span>
+                <span>企业负责人</span>
                 <input type="text" name="legalName" />
             </li>
             <li>
-                <span>法人身份证号</span>
+                <span>企业负责人身份证号</span>
                 <input type="text" name="legalIdcard" />
             </li>
             <li>
@@ -186,7 +188,7 @@
                 <input type="hidden" name="idcardNegativePhoto" />
             </li>
             <li>
-                <span>联系人</span>
+                <span>企业联系人</span>
                 <input type="text" name="contactName" />
             </li>
             <li>
@@ -198,11 +200,11 @@
                 <input type="text" name="companyEmail" />
             </li>
             <li>
-                <span>后台账号</span>
+                <span>企业登录账号</span>
                 <input type="text" name="adminUserName" />
             </li>
             <li>
-                <span>后台密码</span>
+                <span>登录账号密码</span>
                 <input type="password" name="adminPassword" />
             </li>
             <li class="btn">
@@ -741,28 +743,28 @@
             },
             messages:{
                 companyFullName:{
-                    required:'请输入一个名称'
+                    required:'请输入一个企业全称'
                 },
                 companyName:{
-                    required:'请输入一个公司简称'
+                    required:'请输入一个企业简称'
                 },
                 companyDesc:{
-                    required:'请输入一个公司简介'
+                    required:'请输入一个企业简介'
                 },
                 gps:{
                     required:'请输入一个GPS地址'
                 },
                 contactAddress:{
-                    required:'请输入一个公司公司地址'
+                    required:'请输入一个企业地址'
                 },
                 legalName:{
-                    required:'请输入法人姓名'
+                    required:'请输入企业负责人姓名'
                 },
                 legalIdcard:{
-                    required:'请输入法人身份证号'
+                    required:'请输入企业负责人身份证号'
                 },
                 contactName:{
-                    required:'请输入联系人'
+                    required:'请输入企业联系人'
                 },
                 contactMobile: {
                     required: '请输入您的常用手机号码'
@@ -772,10 +774,10 @@
                     email:'邮箱格式不正确'
                 },
                 adminUserName :{
-                    required: '请输入您的后台账号'
+                    required: '请输入您的企业登录账号'
                 },
                 adminPassword :{
-                    required: '请输入您的后台密码'
+                    required: '请输入您的登录账号密码'
                 }
             },
             onsubmit:true
@@ -808,7 +810,7 @@
         }
 
         if(arrOneUrlArr.length == 0) {
-            alert("请上传营业执照附件...");
+            alert("请上传企业证照附件...");
 
             return false;
         } else {
