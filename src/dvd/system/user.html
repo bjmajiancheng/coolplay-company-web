@@ -38,6 +38,10 @@
                 <input id="user_userName" name="userName" class="easyui-validatebox easyui-textbox" prompt="请输入账户" data-options="required:true, missingMessage:'请输入账号'" disabled="disabled">
             </div>
             <div class="form-item col-md-10">
+                <label class="label-top">密码：</label>
+                <input id="userInfo_password" name="password" class="easyui-validatebox easyui-passwordbox" prompt="请输入密码" data-options="required:true, missingMessage:'请输入密码'">
+            </div>
+            <div class="form-item col-md-10">
                 <label class="label-top">显示名称：</label>
                 <input id="user_displayName" name="displayName" class="easyui-validatebox easyui-textbox" prompt="请输入显示名称" data-options="required:true, missingMessage:'请输入显示名称'">
             </div>
@@ -52,10 +56,6 @@
             <div class="form-item col-md-10">
                 <label class="label-top">联系电话：</label>
                 <input id="user_contactPhone" name="contactPhone" class="easyui-validatebox easyui-textbox" prompt="请输入联系电话" data-options="required:true, missingMessage:'请输入联系电话', validType:'telephone'">
-            </div>
-            <div class="form-item col-md-10" id="userInfoPasswordDiv">
-                <label class="label-top">密码：</label>
-                <input id="userInfo_password" name="password" class="easyui-validatebox easyui-passwordbox" prompt="请输入密码" data-options="required:true, missingMessage:'请输入密码'">
             </div>
             <div class="form-item col-md-10">
                 <label class="label-top">账号状态：</label>
@@ -102,7 +102,7 @@
         </div>
     </div>
 
-    <div id="companyUserPasswordWin" class="align_center" style="display: none;padding-top:30px;" title="修改用户密码">
+    <!--<div id="companyUserPasswordWin" class="align_center" style="display: none;padding-top:30px;" title="修改用户密码">
         <form id="companyUserPasswordForm" method="post">
             <input name="id" type="hidden" />
             <div class="form-item col-md-10">
@@ -122,7 +122,7 @@
                 <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="userPasswordInfoCancel()">取消</a>
             </div>
         </form>
-    </div>
+    </div>-->
 </div>
 
 <script type="text/javascript">
@@ -204,7 +204,7 @@
                         }
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="userDetail('+ row.id +')">查看</a>&nbsp;');
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="editUser('+ row.id +')">修改</a>&nbsp;');
-                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="editUserPassword('+ row.id +')">修改密码</a>');
+                        /*btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="editUserPassword('+ row.id +')">修改密码</a>');*/
                         return btns.join('');
                     }
 
@@ -215,7 +215,7 @@
         //初始化用户角色和部门信息
         initUserBaseInfo();
 
-        //密码修改表单提交
+        /*//密码修改表单提交
         $('#companyUserPasswordForm').form({
             url: App.href + '/api/common/companyUser/updateUserPassword',
             method: 'POST',
@@ -232,7 +232,7 @@
                 }
                 refreshCompanyUser();
             }
-        });
+        });*/
 
     })(jQuery, window, document);
 
@@ -360,7 +360,6 @@
         $("#user_enabled").combobox('setValue', '1');
         $("#userInfo_password").passwordbox('setValue', '');
 
-        $("#userInfoPasswordDiv").show();
         $('#companyUserForm').form({'url': App.href + '/api/common/companyUser/saveUser'});
     }
 
@@ -409,13 +408,13 @@
         });
         $('#companyUserWin').window({title: '用户修改'});
         $("#user_userName").textbox({disabled:true});
-        $("#userInfoPasswordDiv").hide();
 
         App.getRequestData('/api/common/companyUser/getUser', {'userId': userId}, function(data) {
             $("#companyUserForm").find("input[name=id]").val(data.id);
             $('#companyUserForm').form({'url': App.href + '/api/common/companyUser/updateUser'});
 
             $("#user_userName").textbox('setValue', data.userName);
+            $("#userInfo_password").passwordbox('setValue', data.password);
             $("#user_displayName").textbox('setValue', data.displayName);
             $("#userRoleId").combobox('setValue', data.roleIds);
             $("#userDeptId").combobox('setValue', data.deptId);
@@ -428,7 +427,7 @@
      * 修改用户密码
      * @param userId
      */
-    function editUserPassword(userId) {
+    /*function editUserPassword(userId) {
         $('#companyUserPasswordWin').window({
             width:600,
             height:400,
@@ -441,9 +440,9 @@
         $("#user_newPasswordConfirm").passwordbox('setValue', "");
     }
 
-    /**
+    /!**
      * 用户密码保存
-     */
+     *!/
     function userPasswordInfoSave() {
         var newPassword = $("#user_newPassword").textbox('getValue');
         var newPasswordConfirm = $("#user_newPasswordConfirm").textbox('getValue');
@@ -456,12 +455,12 @@
         $("#companyUserPasswordForm").submit();
     }
 
-    /**
+    /!**
      * 用户密码修改取消
-     */
+     *!/
     function userPasswordInfoCancel() {
         $('#companyUserPasswordWin').window('close');
-    }
+    }*/
 </script>
 </body>
 
