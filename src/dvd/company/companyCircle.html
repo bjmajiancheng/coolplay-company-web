@@ -162,8 +162,10 @@
                     formatter: function(value, row, index) {
                         var btns = new Array();
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="showCompanyCircle(' + row.id + ')">查看</a>&nbsp;');
-                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="reviewCompanyCircle('+ row.id +', 1)">通过</a>&nbsp;');
-                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="reviewCompanyCircle('+ row.id +', 2)">不通过</a>&nbsp;');
+                        if(row.reviewStatus == 0) {
+                            btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="reviewCompanyCircle('+ row.id +', 1)">通过</a>&nbsp;');
+                            btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="reviewCompanyCircle('+ row.id +', 2)">不通过</a>&nbsp;');
+                        }
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="disableCompanyCircle('+ row.id +', 1)">取消关联</a>');
                         return btns.join('');
                     }
