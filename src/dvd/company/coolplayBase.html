@@ -77,6 +77,7 @@
 
     <div id="coolplayBaseWin" style="display: none;padding-top:30px;" title="创建基地">
         <form id="coolplayBaseForm" method="post">
+            <input type="hidden" id="coolplayBaseId" name="id"/>
             <div class="form-item col-md-12">
                 <label class="label-top">基地全称：</label>
 
@@ -228,7 +229,7 @@
             </div>
 
             <div class="form-item col-md-12">
-                <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveCoolplayBaseWin()">确认新增</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="saveCoolplayBaseWin()">保存</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="closeCoolplayBaseWin()">取消</a>
             </div>
         </form>
@@ -465,11 +466,12 @@
                 },  {
                     field: 'custom_col1',
                     title: '操作',
-                    width: 50,
+                    width: 70,
                     align: 'center',
                     formatter: function(value, row, index) {
                         var btns = new Array();
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="showCoolplayBase('+ row.id +')">详情</a>&nbsp;');
+                        btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="editCoolplayBase('+ row.id +')">修改</a>&nbsp;');
                         btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="delCoolplayBase('+ row.id +')">删除</a>&nbsp;');
                         if(row.isClose == 1) {
                             btns.push('<a href="javascript:void(0)" class="easyui-linkbutton primary" onclick="closeCoolplayBase('+ row.id +', 0)">开放</a>');
@@ -645,6 +647,8 @@
             window.map.remove(window.markers);
         }
 
+        $('#coolplayBaseForm').form({'url': App.href + '/api/company/coolplayBase/saveCoolplayBase'});
+
         $("#coolplayBase_baseFullName").textbox('setValue', '');
         $("#coolplayBase_baseName").textbox('setValue', '');
         $("#baseDescEditorDiv").texteditor('setValue', '');
@@ -674,6 +678,74 @@
 
         var backgroudImgEle = App.uploadImage({id: "backgroudImg", name: 'backgroudImg', isAjaxUpload: true, autoUpload: true});
         $('#backgroudImgDiv').html(backgroudImgEle);
+        $("#coolplayBaseId").val('');
+        $('#coolplayBaseWin').window({title: '创建基地'});
+    }
+
+    /**
+     * 修改公司基地
+     *
+     */
+    function editCoolplayBase(id) {
+        $('#coolplayBaseWin').window({
+            width: "80%",
+            height: "80%",
+            modal:true
+        });
+
+        //调整输入框长度
+        if(window.markers && window.markers.length > 0) {
+            window.map.remove(window.markers);
+        }
+
+        $('#coolplayBaseForm').form({'url': App.href + '/api/company/coolplayBase/updateCoolplayBase'});
+        $('#coolplayBaseWin').window({title: '修改基地'});
+
+        App.getRequestData('/api/company/coolplayBase/getCoolplayBase', {id: id}, function(data) {
+            $("#coolplayBase_baseFullName").textbox('setValue', data.baseFullName);
+            $("#coolplayBase_baseName").textbox('setValue', data.baseName);
+            $("#baseDescEditorDiv").texteditor('setValue', data.baseDesc);
+            $("#coolplayBaseForm").find("input[name=baseDesc]").val(data.baseDesc);
+            $("#coolplayBase_gps").textbox('setValue', data.posX+","+data.posY);
+            $("#coolplayBase_contactName").textbox('setValue', data.contactName);
+            $("#coolplayBase_contactPhone").textbox('setValue', data.contactPhone);
+            $("#coolplayBase_contactAddress").textbox('setValue', data.contactAddress);
+            $("#coolplayBase_departuresGps").textbox('setValue', data.departuresGps);
+            $("#coolplayBase_departuresHeight").textbox('setValue', data.departuresHeight);
+            $("#coolplayBase_landGps").textbox('setValue', data.landGps);
+            $("#coolplayBase_landHeight").textbox('setValue', data.landHeight);
+            $("#coolplayBase_monitorVideoUrl").textbox('setValue', data.monitorVideoUrl);
+            $("#coolplayBase_baseType").textbox('setValue', data.baseType);
+            $("#coolplayBase_isClose").combobox('setValue', data.isClose);
+
+            $(".labelIdsDiv").find('input[type=checkbox]').prop("checked", false);
+            $("#coolplayBaseForm").find("input[name=flyDirection]").val(data.flyDirection);
+
+            $("#coolplayBaseForm").find("input[name=posX]").val(data.posX);
+            $("#coolplayBaseForm").find("input[name=posY]").val(data.posY);
+
+            $(".wind_direction_text_active").each(function(){
+                $(this).removeClass('wind_direction_text_active');
+                $(this).addClass('wind_direction_text');
+            });
+
+            var backgroudImgEle = App.uploadImage({id: "backgroudImg", name: 'backgroudImg', isAjaxUpload: true, autoUpload: true});
+            $('#backgroudImgDiv').html(backgroudImgEle);
+
+            App.showImage('backgroudImgDiv', data.backgroudImg);
+
+            //赋值标签信息
+            for(var i=0; i<data.labelIds.length; i++) {
+                $('#labelIds' + data.labelIds[i]).prop('checked', true);
+            }
+            //赋值风向信息
+            var flyDirections = data.flyDirection.split(',');
+            for(var i=0; i < flyDirections.length; i++) {
+                $(".wind_direction_text[data='"+ flyDirections[i] +"']").addClass('wind_direction_text_active');
+            }
+
+            $("#coolplayBaseId").val(id);
+        });
     }
 
     /**
