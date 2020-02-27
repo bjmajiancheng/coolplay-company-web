@@ -334,7 +334,7 @@
                 $("#shenFenImageOne").attr('src',base64Image);
                 $("#shenFenImageOne").attr('class','image');
                 base64Image = base64Image.split(",")[1];
-                parse(base64Image,'front');
+                /*parse(base64Image,'front');*/
             };
 
             /** 身份证正反面附件上传 */
@@ -363,7 +363,7 @@
                 $("#shenFenImageTwe").attr('src',base64Image);
                 $("#shenFenImageTwe").attr('class','image');
                 base64Image = base64Image.split(",")[1];
-                parse(base64Image,'back');
+                /*parse(base64Image,'back');*/
             };
 
 
@@ -824,7 +824,7 @@
             $("input[name=backgroudImg]").val(backgroudImg);
         }
 
-        if(ShenFenTypeOne == 0 || ShenFenTypeTwe == 0) {
+        if(frontImageUrl == '' || backImageUrl == '') {
             alert("请上传身份证正反面, 并确认上传图片正确...");
 
             return false;
