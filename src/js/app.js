@@ -521,4 +521,5 @@
         window.location.href = App.href + "/login.html";
     });
 
+    jQuery.ajaxSetup({cache:false});
 })(jQuery, window, document);
